@@ -38,6 +38,7 @@ Route::middleware(['auth:tenant'])->group(function () {
     Route::get('/admin/users', \App\Livewire\Admin\Users::class)->middleware(['role:owner|admin'])->name('tenant.admin.users');
     Route::get('/admin/menu', \App\Livewire\Admin\Menu::class)->middleware(['role:owner|admin'])->name('tenant.admin.menu');
     Route::get('/admin/tables', \App\Livewire\Admin\Tables::class)->middleware(['role:owner|admin'])->name('tenant.admin.tables');
+    Route::get('/admin/floor-plan', \App\Livewire\Admin\FloorPlanManager::class)->middleware(['role:owner|admin'])->name('tenant.admin.floor-plan');
     Route::get('/admin/reservations', \App\Livewire\Admin\Reservations::class)->middleware(['role:owner|admin'])->name('tenant.admin.reservations');
     Route::get('/admin/customers', \App\Livewire\Admin\Customers::class)->middleware(['role:owner|admin'])->name('tenant.admin.customers');
     Route::get('/admin/branches', \App\Livewire\Admin\Branches::class)->middleware(['role:owner|admin'])->name('tenant.admin.branches');
@@ -54,9 +55,8 @@ Route::middleware(['auth:tenant'])->group(function () {
     Route::get('/manager/menu', \App\Livewire\Manager\Menu::class)->middleware(['role:manager|owner|admin'])->name('tenant.manager.menu');
     Route::get('/manager/inventory', \App\Livewire\Manager\Inventory::class)->middleware(['role:manager|owner|admin'])->name('tenant.manager.inventory');
     Route::get('/manager/reports', \App\Livewire\Manager\Reports::class)->middleware(['role:manager|owner|admin'])->name('tenant.manager.reports');
-
-    // Manager routes
     Route::get('/manager/staff-shifts', \App\Livewire\Manager\StaffShifts::class)->middleware(['role:manager|owner|admin'])->name('tenant.manager.staff-shifts');
+    Route::get('/manager/floor-plan', \App\Livewire\Manager\FloorPlan::class)->middleware(['role:manager|owner|admin'])->name('tenant.manager.floor-plan');
 
     // Kitchen routes
     Route::get('/kitchen/orders', \App\Livewire\Kitchen\OrderDisplay::class)->middleware(['role:chef|manager|owner|admin'])->name('tenant.kitchen.orders');
