@@ -11,7 +11,11 @@
         <h1 class="text-4xl font-bold text-primary">{{ config('app.name') }}</h1>
         <p class="mt-2 text-lg text-secondary">Restaurant Management SaaS</p>
         <div class="mt-8 flex gap-4">
-            <a href="{{ route('login') }}" class="px-6 py-2 bg-primary text-white rounded">Login</a>
+            @php
+                $isCentral = in_array(request()->getHost(), config('tenancy.central_domains'));
+                $loginRoute = $isCentral ? route('central.login') : url('/login');
+            @endphp
+            <a href="{{ $loginRoute }}" class="px-6 py-2 bg-primary text-white rounded">Login</a>
             <a href="http://resaas.test" class="px-6 py-2 border border-surface-container-high rounded">Tenant Demo</a>
         </div>
     </div>

@@ -22,15 +22,30 @@ return Application::configure(basePath: dirname(__DIR__))
                 'smtp',
                 \Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains::class,
             ])->group(base_path('routes/tenant.php'));
+
+            Route::post(
+                app(\Livewire\Mechanisms\HandleRequests\HandleRequests::class)->getUpdateUri(),
+                [\Livewire\Mechanisms\HandleRequests\HandleRequests::class, 'handleUpdate'],
+            )->middleware([
+                'web',
+                'tenant',
+                'smtp',
+                \Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains::class,
+                \Livewire\Mechanisms\HandleRequests\RequireLivewireHeaders::class,
+            ])->name('tenant.livewire.update');
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(prepend: [
-            \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class,
             \App\Http\Middleware\ApplySmtpSettings::class,
         ]);
 
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
+
+        $middleware->redirectGuestsTo(function () {
+            $isCentral = in_array(request()->getHost(), config('tenancy.central_domains'));
+            return $isCentral ? route('central.login') : route('tenant.login');
+        });
 
         $middleware->alias([
             'tenant' => \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class,

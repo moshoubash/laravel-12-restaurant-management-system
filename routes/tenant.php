@@ -2,10 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', \App\Livewire\Landing::class)->name('landing.home');
-
 Route::fallback(function () {
-    return view('errors.404');
+    return response()->view('errors.404', [], 404);
 })->name('tenant.fallback');
 
 Route::middleware(['auth:tenant'])->group(function () {
