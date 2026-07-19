@@ -7,7 +7,9 @@ Route::fallback(function () {
 })->name('tenant.fallback');
 
 // Public routes (no auth)
+Route::get('/', \App\Livewire\Landing::class)->name('tenant.landing');
 Route::get('/menu', \App\Livewire\PublicMenu::class)->name('tenant.menu');
+Route::get('/reserve', \App\Livewire\PublicReservation::class)->name('tenant.reserve');
 Route::get('/track-order', \App\Livewire\OrderTracking::class)->name('tenant.track-order');
 Route::get('/receipt/{orderId}', \App\Livewire\Receipt::class)->name('tenant.receipt');
 Route::post('/locale', function (\Illuminate\Http\Request $request) {

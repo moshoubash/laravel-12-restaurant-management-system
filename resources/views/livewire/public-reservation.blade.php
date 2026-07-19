@@ -1,0 +1,163 @@
+<div class="min-h-screen bg-surface-container-lowest py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto bg-surface-container rounded-2xl shadow-xl border border-surface-container-high overflow-hidden">
+        {{-- Header --}}
+        <div class="bg-primary px-8 py-6 text-on-primary">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold">Book a Table</h2>
+                    <p class="mt-1 text-sm opacity-90">Secure your table at RESaaS restaurant in seconds.</p>
+                </div>
+                <a href="{{ route('tenant.landing') }}" class="text-sm font-semibold hover:underline">Back Home</a>
+            </div>
+        </div>
+
+        <div class="p-8">
+            @if($isBooked)
+                {{-- Success Screen --}}
+                <div class="text-center py-8 space-y-6">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-success/20 text-success">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h3 class="text-xl font-bold text-on-surface">Reservation Confirmed!</h3>
+                        <p class="text-secondary text-sm">Thank you, {{ $successDetails['customer_name'] }}. Your table reservation has been recorded.</p>
+                    </div>
+
+                    <div class="bg-surface-container-lowest p-6 rounded-xl border border-surface-container-high text-left space-y-3 max-w-md mx-auto">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-secondary">Branch:</span>
+                            <span class="font-bold text-on-surface">{{ $successDetails['branch_name'] }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-secondary">Date:</span>
+                            <span class="font-bold text-on-surface">{{ $successDetails['date'] }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-secondary">Time:</span>
+                            <span class="font-bold text-on-surface">{{ $successDetails['time'] }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-secondary">Guests:</span>
+                            <span class="font-bold text-on-surface">{{ $successDetails['guest_count'] }} people</span>
+                        </div>
+                        @if($successDetails['table_number'])
+                            <div class="flex justify-between text-sm pt-2 border-t border-surface-container-high">
+                                <span class="text-secondary">Assigned Table:</span>
+                                <span class="font-bold text-primary">Table {{ $successDetails['table_number'] }}</span>
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="pt-4 flex justify-center gap-4">
+                        <a href="{{ route('tenant.menu') }}" class="px-6 py-2.5 bg-primary text-on-primary font-bold rounded-lg hover:bg-primary-container">Order Food Menu</a>
+                        <button wire:click="resetBooking" class="px-6 py-2.5 border border-surface-container-high text-on-surface rounded-lg hover:bg-surface-container">Book Another Table</button>
+                    </div>
+                </div>
+            @else
+                {{-- Form Screen --}}
+                <form wire:submit.prevent="book" class="space-y-6">
+                    @if (session()->has('error'))
+                        <div class="p-4 bg-error/10 border border-error/20 rounded-lg text-sm text-error">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {{-- Branch Selection --}}
+                        <div>
+                            <label class="block text-sm font-semibold text-on-surface mb-2">Select Branch</label>
+                            <select wire:model.live="branchId" class="w-full rounded-lg border border-surface-container-high bg-surface-container-lowest px-4 py-2.5 text-on-surface focus:border-primary focus:ring-primary focus:outline-none">
+                                <option value="">Select branch...</option>
+                                @foreach($this->branches as $branch)
+                                    <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('branchId') <p class="mt-1 text-xs text-error">{{ $message }}</p> @enderror
+                        </div>
+
+                        {{-- Guest Count --}}
+                        <div>
+                            <label class="block text-sm font-semibold text-on-surface mb-2">Number of Guests</label>
+                            <input type="number" min="1" max="30" wire:model.live="guestCount" class="w-full rounded-lg border border-surface-container-high bg-surface-container-lowest px-4 py-2.5 text-on-surface focus:border-primary focus:ring-primary focus:outline-none">
+                            @error('guestCount') <p class="mt-1 text-xs text-error">{{ $message }}</p> @enderror
+                        </div>
+
+                        {{-- Date Selection --}}
+                        <div>
+                            <label class="block text-sm font-semibold text-on-surface mb-2">Reservation Date</label>
+                            <input type="date" min="{{ date('Y-m-d') }}" wire:model.live="reservationDate" class="w-full rounded-lg border border-surface-container-high bg-surface-container-lowest px-4 py-2.5 text-on-surface focus:border-primary focus:ring-primary focus:outline-none">
+                            @error('reservationDate') <p class="mt-1 text-xs text-error">{{ $message }}</p> @enderror
+                        </div>
+
+                        {{-- Time Selection --}}
+                        <div>
+                            <label class="block text-sm font-semibold text-on-surface mb-2">Preferred Time</label>
+                            <select wire:model.live="reservationTime" class="w-full rounded-lg border border-surface-container-high bg-surface-container-lowest px-4 py-2.5 text-on-surface focus:border-primary focus:ring-primary focus:outline-none">
+                                @foreach($this->availableTimes as $time)
+                                    <option value="{{ $time }}">{{ $time }}</option>
+                                @endforeach
+                            </select>
+                            @error('reservationTime') <p class="mt-1 text-xs text-error">{{ $message }}</p> @enderror
+                        </div>
+                    </div>
+
+                    {{-- Live Availability Indicator --}}
+                    <div class="p-4 rounded-lg flex items-center gap-3 border {{ $isAvailable ? 'bg-success/10 border-success/20 text-success' : 'bg-error/10 border-error/20 text-error' }}">
+                        <div class="w-2.5 h-2.5 rounded-full {{ $isAvailable ? 'bg-success' : 'bg-error' }}"></div>
+                        <span class="text-sm font-medium">
+                            @if($isAvailable)
+                                Tables are available for this size and time slot!
+                            @else
+                                No tables are available for the selected slot. Please adjust date, time, or guest count.
+                            @endif
+                        </span>
+                    </div>
+
+                    <div class="border-t border-surface-container-high pt-6 space-y-6">
+                        <h3 class="text-base font-bold text-on-surface">Contact Information</h3>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {{-- Customer Name --}}
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold text-on-surface mb-2">Full Name</label>
+                                <input type="text" wire:model="customerName" placeholder="John Doe" class="w-full rounded-lg border border-surface-container-high bg-surface-container-lowest px-4 py-2.5 text-on-surface focus:border-primary focus:ring-primary focus:outline-none">
+                                @error('customerName') <p class="mt-1 text-xs text-error">{{ $message }}</p> @enderror
+                            </div>
+
+                            {{-- Customer Phone --}}
+                            <div>
+                                <label class="block text-sm font-semibold text-on-surface mb-2">Phone Number</label>
+                                <input type="tel" wire:model="customerPhone" placeholder="+1 (555) 000-0000" class="w-full rounded-lg border border-surface-container-high bg-surface-container-lowest px-4 py-2.5 text-on-surface focus:border-primary focus:ring-primary focus:outline-none">
+                                @error('customerPhone') <p class="mt-1 text-xs text-error">{{ $message }}</p> @enderror
+                            </div>
+
+                            {{-- Customer Email --}}
+                            <div>
+                                <label class="block text-sm font-semibold text-on-surface mb-2">Email Address (Optional)</label>
+                                <input type="email" wire:model="customerEmail" placeholder="john@example.com" class="w-full rounded-lg border border-surface-container-high bg-surface-container-lowest px-4 py-2.5 text-on-surface focus:border-primary focus:ring-primary focus:outline-none">
+                                @error('customerEmail') <p class="mt-1 text-xs text-error">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
+
+                        {{-- Special Requests --}}
+                        <div>
+                            <label class="block text-sm font-semibold text-on-surface mb-2">Special Requests (Optional)</label>
+                            <textarea wire:model="specialRequests" rows="3" placeholder="Allergies, high chair, window seat, anniversary..." class="w-full rounded-lg border border-surface-container-high bg-surface-container-lowest px-4 py-2.5 text-on-surface focus:border-primary focus:ring-primary focus:outline-none"></textarea>
+                            @error('specialRequests') <p class="mt-1 text-xs text-error">{{ $message }}</p> @enderror
+                        </div>
+                    </div>
+
+                    {{-- Submit Button --}}
+                    <div class="pt-4 flex justify-end">
+                        <button type="submit" @if(!$isAvailable) disabled @endif class="w-full md:w-auto px-8 py-3 bg-primary text-on-primary font-bold rounded-lg hover:bg-primary-container disabled:opacity-50 disabled:cursor-not-allowed">
+                            Confirm Booking
+                        </button>
+                    </div>
+                </form>
+            @endif
+        </div>
+    </div>
+</div>

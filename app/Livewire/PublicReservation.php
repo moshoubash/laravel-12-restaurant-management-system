@@ -1,23 +1,24 @@
 <?php
 
-namespace App\Livewire\Customer;
+namespace App\Livewire;
 
 use App\Models\Tenant\Branch;
-use App\Models\Tenant\Customer;
 use App\Models\Tenant\Reservation;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-class Reservations extends Component
+class PublicReservation extends Component
 {
-    // Form fields
     public $branchId = '';
     public $guestCount = 2;
     public $reservationDate = '';
     public $reservationTime = '';
+    public $customerName = '';
+    public $customerEmail = '';
+    public $customerPhone = '';
     public $specialRequests = '';
 
-    public $showBookModal = false;
+    public $isBooked = false;
+    public $successDetails = [];
     public $isAvailable = true;
 
     protected $rules = [
@@ -25,6 +26,9 @@ class Reservations extends Component
         'guestCount' => 'required|integer|min:1|max:30',
         'reservationDate' => 'required|date|after_or_equal:today',
         'reservationTime' => 'required|string',
+        'customerName' => 'required|string|max:255',
+        'customerEmail' => 'nullable|email|max:255',
+        'customerPhone' => 'required|string|max:20',
         'specialRequests' => 'nullable|string|max:1000',
     ];
 
@@ -63,21 +67,6 @@ class Reservations extends Component
         }
     }
 
-    public function getReservationsProperty()
-    {
-        $user = Auth::guard('tenant')->user();
-        return Reservation::with('branch', 'table')
-            ->where(function ($q) use ($user) {
-                $q->where('customer_email', $user->email);
-                if ($user->phone) {
-                    $q->orWhere('customer_phone', $user->phone);
-                }
-            })
-            ->orderBy('reservation_date', 'desc')
-            ->orderBy('reservation_time', 'desc')
-            ->get();
-    }
-
     public function getBranchesProperty()
     {
         return Branch::where('is_active', true)->orderBy('name')->get();
@@ -89,25 +78,11 @@ class Reservations extends Component
         $start = strtotime('12:00');
         $end = strtotime('23:00');
 
-        for ($i = $start; $i <= $end; $i += 1800) {
+        for ($i = $start; $i <= $end; $i += 1800) { // every 30 minutes
             $times[] = date('H:i', $i);
         }
 
         return $times;
-    }
-
-    public function openBookModal()
-    {
-        $this->resetErrorBag();
-        $this->specialRequests = '';
-        $branch = Branch::where('is_active', true)->first();
-        if ($branch) {
-            $this->branchId = $branch->id;
-        }
-        $this->reservationDate = date('Y-m-d');
-        $this->reservationTime = '19:00';
-        $this->checkAvailability();
-        $this->showBookModal = true;
     }
 
     public function book()
@@ -116,12 +91,9 @@ class Reservations extends Component
         $this->checkAvailability();
 
         if (!$this->isAvailable) {
-            session()->flash('error', 'No tables are available for the selected slot.');
+            session()->flash('error', 'Unfortunately, there is no available table for the selected date, time, or guest count.');
             return;
         }
-
-        $user = Auth::guard('tenant')->user();
-        $customer = Customer::where('email', $user->email)->first();
 
         $table = Reservation::getAvailableTable(
             $this->branchId,
@@ -130,60 +102,63 @@ class Reservations extends Component
             $this->guestCount
         );
 
-        Reservation::create([
+        $reservation = Reservation::create([
             'branch_id' => $this->branchId,
             'table_id' => $table?->id,
-            'customer_id' => $customer?->id,
-            'customer_name' => $user->name,
-            'customer_email' => $user->email,
-            'customer_phone' => $user->phone ?? 'N/A',
+            'customer_name' => $this->customerName,
+            'customer_email' => $this->customerEmail ?: null,
+            'customer_phone' => $this->customerPhone,
             'guest_count' => $this->guestCount,
             'reservation_date' => $this->reservationDate,
             'reservation_time' => $this->reservationTime,
-            'duration' => 120,
+            'duration' => 120, // default 2 hours
             'status' => 'pending',
             'special_requests' => $this->specialRequests ?: null,
             'source' => 'online',
         ]);
 
+        // Also check if customer account or customer record should be created/updated
+        $customer = \App\Models\Tenant\Customer::where('email', $this->customerEmail)
+            ->orWhere('phone', $this->customerPhone)
+            ->first();
+
         if ($customer) {
             $customer->increment('total_visits');
         } else {
-            Customer::create([
+            \App\Models\Tenant\Customer::create([
                 'branch_id' => $this->branchId,
-                'name' => $user->name,
-                'email' => $user->email,
-                'phone' => $user->phone,
+                'name' => $this->customerName,
+                'email' => $this->customerEmail ?: null,
+                'phone' => $this->customerPhone,
                 'total_visits' => 1,
                 'is_active' => true,
             ]);
         }
 
-        $this->showBookModal = false;
-        session()->flash('success', 'Reservation booked successfully! It is currently pending confirmation.');
+        $this->isBooked = true;
+        $this->successDetails = [
+            'id' => $reservation->id,
+            'customer_name' => $reservation->customer_name,
+            'branch_name' => $reservation->branch->name,
+            'table_number' => $table?->table_number,
+            'date' => $reservation->reservation_date->format('Y-m-d'),
+            'time' => $reservation->reservation_time->format('H:i'),
+            'guest_count' => $reservation->guest_count,
+        ];
+
+        $this->reset(['customerName', 'customerEmail', 'customerPhone', 'specialRequests']);
     }
 
-    public function cancelReservation($id)
+    public function resetBooking()
     {
-        $user = Auth::guard('tenant')->user();
-        $reservation = Reservation::findOrFail($id);
-
-        // Ensure user owns this reservation
-        if ($reservation->customer_email !== $user->email && $reservation->customer_phone !== $user->phone) {
-            abort(403);
-        }
-
-        $reservation->update([
-            'status' => 'cancelled',
-            'cancelled_at' => now(),
-            'cancellation_reason' => 'Cancelled by customer',
-        ]);
-
-        session()->flash('success', 'Reservation has been cancelled.');
+        $this->isBooked = false;
+        $this->successDetails = [];
+        $this->checkAvailability();
     }
 
     public function render()
     {
-        return view('livewire.customer.reservations')->layout('layouts.customer');
+        return view('livewire.public-reservation')
+            ->layout('layouts.public');
     }
 }
