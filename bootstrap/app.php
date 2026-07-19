@@ -39,6 +39,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(prepend: [
             \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class,
             \App\Http\Middleware\ApplySmtpSettings::class,
+            \App\Http\Middleware\SetLocale::class,
         ]);
 
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);

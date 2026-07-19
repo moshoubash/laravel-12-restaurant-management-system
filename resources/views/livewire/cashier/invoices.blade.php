@@ -138,7 +138,9 @@
 
                 <div class="mt-6 flex justify-end gap-3">
                     <button wire:click="closeDetail" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">Close</button>
-                    <button onclick="window.print()" class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:bg-primary/90">Print</button>
+                    @if($selectedInvoice->order_id)
+                        <a href="{{ route('tenant.receipt', ['orderId' => $selectedInvoice->order_id]) }}" target="_blank" class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:bg-primary/90">🖨️ Print Receipt</a>
+                    @endif
                 </div>
             </div>
         </div>

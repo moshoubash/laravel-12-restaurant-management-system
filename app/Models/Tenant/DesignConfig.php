@@ -16,6 +16,7 @@ class DesignConfig extends Model
         'font',
         'receipt_header',
         'receipt_footer',
+        'locale',
     ];
 
     protected function casts(): array

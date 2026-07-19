@@ -140,6 +140,7 @@
 
                     <div class="mt-6 flex justify-end gap-3">
                         <button wire:click="closeDetail" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">Close</button>
+                        <a href="{{ route('tenant.receipt', ['orderId' => $order->id]) }}" target="_blank" class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:bg-primary/90">🖨️ Print Receipt</a>
                         @if($order->status === 'ready')
                             <button wire:click="markServed({{ $order->id }})" class="rounded-lg bg-success px-4 py-2 text-sm font-bold text-on-success hover:bg-success/90">Mark Served</button>
                         @endif

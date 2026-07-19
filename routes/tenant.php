@@ -9,6 +9,14 @@ Route::fallback(function () {
 // Public routes (no auth)
 Route::get('/menu', \App\Livewire\PublicMenu::class)->name('tenant.menu');
 Route::get('/track-order', \App\Livewire\OrderTracking::class)->name('tenant.track-order');
+Route::get('/receipt/{orderId}', \App\Livewire\Receipt::class)->name('tenant.receipt');
+Route::post('/locale', function (\Illuminate\Http\Request $request) {
+    $locale = $request->input('locale');
+    if (in_array($locale, ['en', 'ar'])) {
+        session(['locale' => $locale]);
+    }
+    return back();
+})->name('tenant.locale.switch');
 
 Route::middleware(['auth:tenant'])->group(function () {
     Route::get('/dashboard', \App\Livewire\Dashboard::class)->name('tenant.dashboard');
@@ -24,6 +32,9 @@ Route::middleware(['auth:tenant'])->group(function () {
 
     // Owner / Admin routes
     Route::get('/admin/staff', \App\Livewire\Admin\Staff::class)->middleware(['role:owner|admin'])->name('tenant.admin.staff');
+    Route::get('/admin/suppliers', \App\Livewire\Admin\Suppliers::class)->middleware(['role:owner|admin'])->name('tenant.admin.suppliers');
+    Route::get('/admin/purchase-orders', \App\Livewire\PurchaseOrders::class)->middleware(['role:owner|admin'])->name('tenant.admin.purchase-orders');
+    Route::get('/admin/recipes', \App\Livewire\Admin\RecipeItems::class)->middleware(['role:owner|admin'])->name('tenant.admin.recipes');
     Route::get('/admin/users', \App\Livewire\Admin\Users::class)->middleware(['role:owner|admin'])->name('tenant.admin.users');
     Route::get('/admin/menu', \App\Livewire\Admin\Menu::class)->middleware(['role:owner|admin'])->name('tenant.admin.menu');
     Route::get('/admin/tables', \App\Livewire\Admin\Tables::class)->middleware(['role:owner|admin'])->name('tenant.admin.tables');

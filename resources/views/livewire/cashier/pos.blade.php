@@ -190,7 +190,10 @@
                 <div class="text-5xl mb-4">✅</div>
                 <h3 class="text-xl font-bold text-on-surface">Payment Complete!</h3>
                 <p class="mt-2 text-secondary">Order #{{ $lastOrderNumber }}</p>
-                <button wire:click="newOrder" class="mt-6 w-full rounded bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:bg-primary-container">New Order</button>
+                @if($lastOrderId)
+                    <a href="{{ route('tenant.receipt', ['orderId' => $lastOrderId]) }}" target="_blank" class="mt-4 block w-full rounded border border-primary px-4 py-2 text-sm font-bold text-primary hover:bg-primary/5">🖨️ Print Receipt</a>
+                @endif
+                <button wire:click="newOrder" class="mt-2 w-full rounded bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:bg-primary-container">New Order</button>
             </div>
         </div>
     @endif

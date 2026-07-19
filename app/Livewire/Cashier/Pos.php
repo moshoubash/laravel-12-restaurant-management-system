@@ -40,6 +40,7 @@ class Pos extends Component
     // Receipt / Success
     public $showSuccess = false;
     public $lastOrderNumber = '';
+    public $lastOrderId = null;
 
     public function mount()
     {
@@ -249,6 +250,7 @@ class Pos extends Component
         ]);
 
         $this->lastOrderNumber = $order->order_number;
+        $this->lastOrderId = $order->id;
         $this->showCheckout = false;
         $this->showSuccess = true;
         $this->clearCart();
@@ -260,6 +262,7 @@ class Pos extends Component
     {
         $this->showSuccess = false;
         $this->lastOrderNumber = '';
+        $this->lastOrderId = null;
     }
 
     public function render()
