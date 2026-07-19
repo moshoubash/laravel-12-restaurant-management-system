@@ -66,6 +66,7 @@ Route::middleware(['auth:tenant'])->group(function () {
     Route::get('/customer/orders', \App\Livewire\Customer\Orders::class)->middleware(['role:customer'])->name('tenant.customer.orders');
     Route::get('/customer/reservations', \App\Livewire\Customer\Reservations::class)->middleware(['role:customer'])->name('tenant.customer.reservations');
     Route::get('/customer/loyalty', \App\Livewire\Customer\Loyalty::class)->middleware(['role:customer'])->name('tenant.customer.loyalty');
+    Route::get('/customer/profile', \App\Livewire\Customer\Profile::class)->middleware(['role:customer'])->name('tenant.customer.profile');
 });
 
 require __DIR__ . '/auth-tenant.php';
