@@ -117,8 +117,9 @@
     </main>
 
     {{-- Footer --}}
-    <footer class="text-center py-6 text-sm text-secondary border-t border-surface-container-high">
+    <footer class="text-center py-6 text-sm text-secondary border-t border-surface-container-high flex justify-center gap-6">
         <a href="{{ route('tenant.track-order') }}" class="hover:text-primary transition">Track your order</a>
+        <a href="{{ route('tenant.reserve') }}" class="hover:text-primary transition">Book a Table</a>
     </footer>
 
     {{-- Cart Drawer / Checkout --}}
