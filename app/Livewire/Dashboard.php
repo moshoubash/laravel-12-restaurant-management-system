@@ -8,7 +8,7 @@ class Dashboard extends Component
 {
     public function render()
     {
-        $user = auth()->user();
+        $user = auth('tenant')->user();
 
         if ($user->hasRole(['owner', 'admin'])) {
             return view('livewire.dashboard')->layout('layouts.admin');

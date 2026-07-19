@@ -18,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         then: function () {
             Route::middleware([
                 'web',
-                'tenant',
+                // 'tenant',
                 'smtp',
                 \Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains::class,
             ])->group(base_path('routes/tenant.php'));
@@ -28,7 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 [\Livewire\Mechanisms\HandleRequests\HandleRequests::class, 'handleUpdate'],
             )->middleware([
                 'web',
-                'tenant',
+                // 'tenant',
                 'smtp',
                 \Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains::class,
                 \Livewire\Mechanisms\HandleRequests\RequireLivewireHeaders::class,
@@ -37,6 +37,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(prepend: [
+            \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class,
             \App\Http\Middleware\ApplySmtpSettings::class,
         ]);
 
@@ -48,7 +49,6 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $middleware->alias([
-            'tenant' => \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class,
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,

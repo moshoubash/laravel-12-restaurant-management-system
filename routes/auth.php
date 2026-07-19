@@ -14,6 +14,13 @@ if ($isCentralDomain) {
             return view('auth.register');
         })->name('central.register');
     });
+
+    Route::post('/logout', function (\Illuminate\Http\Request $request) {
+        auth('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('central.login');
+    })->name('central.logout');
 } else {
     Route::any('/central/{any?}', function () {
         return redirect('/login');

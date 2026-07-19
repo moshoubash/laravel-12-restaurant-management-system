@@ -83,6 +83,14 @@ class TenancyServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->bootEvents();
+
+        \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::$onFail = function ($e, $request, $next) {
+            $centralDomains = config('tenancy.central_domains', []);
+            if (in_array($request->getHost(), $centralDomains)) {
+                return $next($request);
+            }
+            throw $e;
+        };
     }
 
     protected function bootEvents(): void

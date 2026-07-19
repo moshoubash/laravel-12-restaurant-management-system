@@ -2,26 +2,28 @@
     <div class="space-y-6">
         <div class="text-center">
             <h1 class="text-2xl font-bold text-primary">{{ config('app.name') }}</h1>
-            <p class="mt-1 text-sm text-secondary">Central Admin Login</p>
+            <p class="mt-1 text-sm text-secondary">Tenant Login</p>
         </div>
 
-        <form method="POST" action="{{ route('tenant.login.post') }}" class="space-y-4">
+        @if ($errors->any())
+            <div class="p-3 text-sm rounded bg-error/10 text-error">
+                @foreach ($errors->all() as $error)
+                    <p>{{ $error }}</p>
+                @endforeach
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('tenant.login.submit') }}" class="space-y-4">
             @csrf
             <div>
                 <label for="email" class="block text-sm font-medium text-on-surface">Email</label>
                 <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
                     class="block w-full px-3 py-2 mt-1 rounded border-surface-container-high bg-surface-container-lowest text-on-surface focus:border-primary focus:ring-primary">
-                @error('email')
-                    <p class="mt-1 text-sm text-error">{{ $message }}</p>
-                @enderror
             </div>
             <div>
                 <label for="password" class="block text-sm font-medium text-on-surface">Password</label>
                 <input id="password" type="password" name="password" required
                     class="block w-full px-3 py-2 mt-1 rounded border-surface-container-high bg-surface-container-lowest text-on-surface focus:border-primary focus:ring-primary">
-                @error('password')
-                    <p class="mt-1 text-sm text-error">{{ $message }}</p>
-                @enderror
             </div>
             <div class="flex items-center">
                 <input id="remember" type="checkbox" name="remember" class="rounded border-surface-container-high text-primary focus:ring-primary">

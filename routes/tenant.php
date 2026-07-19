@@ -11,6 +11,13 @@ Route::middleware(['auth:tenant'])->group(function () {
     Route::get('/notifications', \App\Livewire\Notifications::class)->name('tenant.notifications');
     Route::get('/profile', \App\Livewire\Profile::class)->name('tenant.profile');
 
+    Route::post('/logout', function (\Illuminate\Http\Request $request) {
+        auth('tenant')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('tenant.login');
+    })->name('tenant.logout');
+
     // Owner / Admin routes
     Route::get('/admin/users', \App\Livewire\Admin\Users::class)->middleware(['role:owner|admin'])->name('tenant.admin.users');
     Route::get('/admin/menu', \App\Livewire\Admin\Menu::class)->middleware(['role:owner|admin'])->name('tenant.admin.menu');
