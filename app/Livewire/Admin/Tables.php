@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\Tenant\Order;
 use App\Models\Tenant\Table;
 use Livewire\Component;
+use Illuminate\Support\Str;
 
 class Tables extends Component
 {
@@ -153,7 +154,8 @@ class Tables extends Component
         if ($this->editingTable) {
             Table::findOrFail($this->editingTable)->update($data);
         } else {
-            Table::create($data);
+            $table = Table::create($data);
+            $table->update(['qr_code' => $this->generateQrUrl($table)]);
         }
 
         $this->showForm = false;
@@ -163,6 +165,17 @@ class Tables extends Component
     public function deleteTable($id)
     {
         Table::findOrFail($id)->delete();
+    }
+
+    public function generateQrUrl($table)
+    {
+        return url('/menu?table=' . $table->id);
+    }
+
+    public function regenerateQr($id)
+    {
+        $table = Table::findOrFail($id);
+        $table->update(['qr_code' => $this->generateQrUrl($table)]);
     }
 
     public function updatePosition($id, $x, $y)

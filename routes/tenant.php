@@ -6,6 +6,10 @@ Route::fallback(function () {
     return response()->view('errors.404', [], 404);
 })->name('tenant.fallback');
 
+// Public routes (no auth)
+Route::get('/menu', \App\Livewire\PublicMenu::class)->name('tenant.menu');
+Route::get('/track-order', \App\Livewire\OrderTracking::class)->name('tenant.track-order');
+
 Route::middleware(['auth:tenant'])->group(function () {
     Route::get('/dashboard', \App\Livewire\Dashboard::class)->name('tenant.dashboard');
     Route::get('/notifications', \App\Livewire\Notifications::class)->name('tenant.notifications');

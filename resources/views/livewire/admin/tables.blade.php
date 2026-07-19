@@ -250,6 +250,38 @@
                     </div>
                 @endif
 
+                {{-- QR Code --}}
+                <div class="mt-4 rounded-lg border border-surface-container-high bg-surface-container p-4">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-on-surface text-sm">QR Code — Self Ordering</h4>
+                        <div class="flex gap-2">
+                            <button wire:click="regenerateQr({{ $selectedTable->id }})" class="text-xs text-primary hover:underline">Regenerate</button>
+                        </div>
+                    </div>
+                    <div class="mt-2 flex items-start gap-3">
+                        <div class="flex-shrink-0 bg-white rounded-lg p-1">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={{ urlencode($selectedTable->qr_code ?? $this->generateQrUrl($selectedTable)) }}"
+                                 alt="QR Code" class="w-24 h-24">
+                        </div>
+                        <div class="text-xs text-secondary space-y-2">
+                            <p><strong class="text-on-surface">How it works:</strong> Place this QR code on the table. Customers scan it with their phone to open the online menu, add items to cart, and checkout — no app or account needed.</p>
+                            <p>The order appears in <strong class="text-on-surface">Kitchen</strong> (prep list) and <strong class="text-on-surface">Waiter</strong> dashboard with the table number assigned automatically.</p>
+                            <div class="flex gap-2 pt-1">
+                                <a href="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data={{ urlencode($selectedTable->qr_code ?? $this->generateQrUrl($selectedTable)) }}"
+                                   target="_blank" download="table-{{ $selectedTable->table_number }}-qr.png"
+                                   class="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                    Download QR
+                                </a>
+                                <button onclick="window.print()" class="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                                    Print
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="mt-6 flex justify-end gap-3">
                     <button wire:click="closeDetail" class="rounded border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">Close</button>
                     <button wire:click="openForm({{ $selectedTable->id }})" class="rounded bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:bg-primary-container">Edit Table</button>
