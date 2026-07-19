@@ -177,6 +177,10 @@ class FloorPlanManager extends Component
 
     public function render()
     {
-        return view('livewire.admin.floor-plan-manager')->layout('layouts.admin');
+        return view('livewire.admin.floor-plan-manager', [
+            'sections' => $this->sections,
+            'tables' => $this->tables,
+            'tablesBySection' => $this->tablesBySection,
+        ])->layout('layouts.admin');
     }
 }
