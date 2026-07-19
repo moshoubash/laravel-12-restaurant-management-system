@@ -15,6 +15,7 @@
         @if ($isManager)
             <div class="text-xs text-on-surface-variant font-semibold uppercase tracking-wider px-3 pt-4 pb-1">Operations</div>
             <a href="{{ route('tenant.manager.orders') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.manager.orders*') ? 'bg-primary-container text-on-primary-container' : '' }}">Orders</a>
+            <a href="{{ route('tenant.manager.staff-shifts') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.manager.staff-shifts*') ? 'bg-primary-container text-on-primary-container' : '' }}">Staff Shifts</a>
             <a href="{{ route($isOwnerOrAdmin ? 'tenant.admin.menu' : 'tenant.manager.menu') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.*.menu*') ? 'bg-primary-container text-on-primary-container' : '' }}">Menu</a>
             <a href="{{ route($isOwnerOrAdmin ? 'tenant.admin.inventory' : 'tenant.manager.inventory') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.*.inventory*') ? 'bg-primary-container text-on-primary-container' : '' }}">Inventory</a>
             @if ($isOwnerOrAdmin)
@@ -30,6 +31,7 @@
 
         @if ($isOwnerOrAdmin)
             <div class="text-xs text-on-surface-variant font-semibold uppercase tracking-wider px-3 pt-4 pb-1">Administration</div>
+            <a href="{{ route('tenant.admin.staff') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.staff*') ? 'bg-primary-container text-on-primary-container' : '' }}">Staff</a>
             <a href="{{ route('tenant.admin.users') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.users*') ? 'bg-primary-container text-on-primary-container' : '' }}">Users</a>
             <a href="{{ route('tenant.admin.design') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.design*') ? 'bg-primary-container text-on-primary-container' : '' }}">Design</a>
             <a href="{{ route('tenant.admin.smtp-settings') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.smtp-settings*') ? 'bg-primary-container text-on-primary-container' : '' }}">SMTP Settings</a>

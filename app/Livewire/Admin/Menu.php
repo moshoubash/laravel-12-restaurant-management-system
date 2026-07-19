@@ -112,6 +112,16 @@ class Menu extends Component
         }
     }
 
+    public function cancelCategoryForm()
+    {
+        $this->showCategoryForm = false;
+        $this->editingCategory = null;
+        $this->categoryName = '';
+        $this->categoryDescription = '';
+        $this->categorySortOrder = 0;
+        $this->resetErrorBag();
+    }
+
     public function saveCategory()
     {
         $this->validate([
@@ -193,6 +203,24 @@ class Menu extends Component
             $this->itemAllergens = [];
             $this->itemDietaryLabels = [];
         }
+    }
+
+    public function cancelItemForm()
+    {
+        $this->showItemForm = false;
+        $this->editingItem = null;
+        $this->itemCategoryId = '';
+        $this->itemName = '';
+        $this->itemDescription = '';
+        $this->itemPrice = '';
+        $this->itemComparePrice = '';
+        $this->itemCost = '';
+        $this->itemPreparationTime = '';
+        $this->itemIsAvailable = true;
+        $this->itemIsFeatured = false;
+        $this->itemAllergens = [];
+        $this->itemDietaryLabels = [];
+        $this->resetErrorBag();
     }
 
     public function saveItem()
@@ -302,6 +330,18 @@ class Menu extends Component
             $this->modifierIsRequired = false;
             $this->modifierMaxSelections = 1;
         }
+    }
+
+    public function cancelModifierForm()
+    {
+        $this->showModifierForm = false;
+        $this->editingModifier = null;
+        $this->modifierName = '';
+        $this->modifierType = 'single';
+        $this->modifierOptions = '';
+        $this->modifierIsRequired = false;
+        $this->modifierMaxSelections = 1;
+        $this->resetErrorBag();
     }
 
     public function saveModifier()

@@ -28,6 +28,11 @@ class User extends Authenticatable
         'pin',
     ];
 
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
     protected function casts(): array
     {
         return [

@@ -19,6 +19,7 @@ Route::middleware(['auth:tenant'])->group(function () {
     })->name('tenant.logout');
 
     // Owner / Admin routes
+    Route::get('/admin/staff', \App\Livewire\Admin\Staff::class)->middleware(['role:owner|admin'])->name('tenant.admin.staff');
     Route::get('/admin/users', \App\Livewire\Admin\Users::class)->middleware(['role:owner|admin'])->name('tenant.admin.users');
     Route::get('/admin/menu', \App\Livewire\Admin\Menu::class)->middleware(['role:owner|admin'])->name('tenant.admin.menu');
     Route::get('/admin/tables', \App\Livewire\Admin\Tables::class)->middleware(['role:owner|admin'])->name('tenant.admin.tables');
@@ -39,8 +40,13 @@ Route::middleware(['auth:tenant'])->group(function () {
     Route::get('/manager/inventory', \App\Livewire\Manager\Inventory::class)->middleware(['role:manager|owner|admin'])->name('tenant.manager.inventory');
     Route::get('/manager/reports', \App\Livewire\Manager\Reports::class)->middleware(['role:manager|owner|admin'])->name('tenant.manager.reports');
 
+    // Manager routes
+    Route::get('/manager/staff-shifts', \App\Livewire\Manager\StaffShifts::class)->middleware(['role:manager|owner|admin'])->name('tenant.manager.staff-shifts');
+
     // Kitchen routes
     Route::get('/kitchen/orders', \App\Livewire\Kitchen\OrderDisplay::class)->middleware(['role:chef|manager|owner|admin'])->name('tenant.kitchen.orders');
+    Route::get('/kitchen/prep-list', \App\Livewire\Kitchen\PrepList::class)->middleware(['role:chef|manager|owner|admin'])->name('tenant.kitchen.prep-list');
+    Route::get('/kitchen/inventory-alerts', \App\Livewire\Kitchen\InventoryAlerts::class)->middleware(['role:chef|manager|owner|admin'])->name('tenant.kitchen.inventory-alerts');
 
     // Waiter routes
     Route::get('/waiter/tables', \App\Livewire\Waiter\Tables::class)->middleware(['role:waiter|manager|owner|admin'])->name('tenant.waiter.tables');

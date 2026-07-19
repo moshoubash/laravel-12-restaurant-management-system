@@ -9,7 +9,7 @@
             @foreach($this->categories as $cat)
                 <div wire:key="cat-{{ $cat->id }}"
                      wire:click="selectCategory({{ $cat->id }})"
-                     class="group flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors {{ $selectedCategoryId === $cat->id ? 'bg-primary-container text-on-primary-container' : 'hover:bg-surface-container-high text-on-surface' }}">
+                     class="group flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors {{ $selectedCategoryId === $cat->id ? 'bg-primary-container text-on-primary-container' : 'hover:bg-surface-container-high text-on-surface' }} {{ !$cat->is_active ? 'opacity-40' : '' }}">
                     <div class="flex items-center gap-2 min-w-0">
                         <span class="truncate">{{ $cat->name }}</span>
                         <span class="shrink-0 text-xs text-secondary">({{ $cat->items_count }})</span>
@@ -41,7 +41,7 @@
     <div class="flex-1 min-w-0">
         @if($selectedCategoryId)
             <div class="mb-4 flex items-center justify-between gap-4">
-                <h2 class="text-lg font-bold text-on-surface">{{ MenuCategory::find($selectedCategoryId)?->name }} Items</h2>
+                <h2 class="text-lg font-bold text-on-surface">{{ $this->categories->firstWhere('id', $selectedCategoryId)?->name }} Items</h2>
                 <div class="flex items-center gap-3">
                     <input wire:model.live="search" type="text" placeholder="Search items..." class="w-48 rounded border border-surface-container-high bg-surface-container-lowest px-3 py-1.5 text-sm text-on-surface placeholder-secondary focus:border-primary focus:ring-primary">
                     <button wire:click="openItemForm" class="rounded bg-primary px-3 py-1.5 text-sm font-bold text-on-primary hover:bg-primary-container">+ Add Item</button>
@@ -141,7 +141,7 @@
                     </div>
                 </div>
                 <div class="mt-6 flex justify-end gap-3">
-                    <button wire:click="showCategoryForm = false" class="rounded border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">Cancel</button>
+                    <button wire:click="cancelCategoryForm" class="rounded border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">Cancel</button>
                     <button wire:click="saveCategory" class="rounded bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:bg-primary-container">Save</button>
                 </div>
             </div>
@@ -201,7 +201,7 @@
                     </div>
                 </div>
                 <div class="mt-6 flex justify-end gap-3">
-                    <button wire:click="showItemForm = false" class="rounded border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">Cancel</button>
+                    <button wire:click="cancelItemForm" class="rounded border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">Cancel</button>
                     <button wire:click="saveItem" class="rounded bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:bg-primary-container">Save</button>
                 </div>
             </div>
@@ -243,7 +243,7 @@
                     </div>
                 </div>
                 <div class="mt-6 flex justify-end gap-3">
-                    <button wire:click="showModifierForm = false" class="rounded border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">Cancel</button>
+                    <button wire:click="cancelModifierForm" class="rounded border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">Cancel</button>
                     <button wire:click="saveModifier" class="rounded bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:bg-primary-container">Save</button>
                 </div>
             </div>

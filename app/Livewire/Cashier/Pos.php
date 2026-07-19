@@ -180,6 +180,7 @@ class Pos extends Component
         ]);
 
         $order = Order::create([
+            'branch_id' => \App\Models\Tenant\Branch::first()->id,
             'order_number' => 'POS-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
             'table_id' => $this->orderTableId ?: null,
             'user_id' => auth('tenant')->id(),

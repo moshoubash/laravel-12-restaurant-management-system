@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\Tenant\Order;
 use App\Models\Tenant\Table;
 use Livewire\Component;
 
@@ -20,6 +21,9 @@ class Tables extends Component
     public $filterSection = '';
     public $filterStatus = '';
 
+    public $showDetail = false;
+    public $selectedTableId = null;
+
     protected function rules()
     {
         return [
@@ -36,7 +40,12 @@ class Tables extends Component
 
     public function getTablesProperty()
     {
-        return Table::when($this->filterSection, fn($q) => $q->where('section', $this->filterSection))
+        return Table::with(['orders' => function ($q) {
+            $q->whereIn('status', ['pending', 'confirmed', 'preparing', 'ready', 'served'])
+              ->with('items')
+              ->latest('ordered_at');
+        }])
+            ->when($this->filterSection, fn($q) => $q->where('section', $this->filterSection))
             ->when($this->filterStatus, fn($q) => $q->where('status', $this->filterStatus))
             ->orderBy('section')
             ->orderBy('table_number')
@@ -46,6 +55,32 @@ class Tables extends Component
     public function getSectionsProperty()
     {
         return Table::whereNotNull('section')->distinct()->pluck('section');
+    }
+
+    public function getSelectedTableProperty()
+    {
+        if (!$this->selectedTableId) return null;
+        return Table::with(['orders' => function ($q) {
+            $q->whereIn('status', ['pending', 'confirmed', 'preparing', 'ready', 'served'])
+              ->with(['items', 'user'])
+              ->latest('ordered_at');
+        }, 'reservations' => function ($q) {
+            $q->where('reservation_date', '>=', now()->startOfDay())
+              ->where('status', '!=', 'cancelled')
+              ->latest('reservation_date');
+        }])->find($this->selectedTableId);
+    }
+
+    public function viewTable($id)
+    {
+        $this->selectedTableId = $id;
+        $this->showDetail = true;
+    }
+
+    public function closeDetail()
+    {
+        $this->showDetail = false;
+        $this->selectedTableId = null;
     }
 
     public function openForm($id = null)
@@ -76,6 +111,21 @@ class Tables extends Component
         }
     }
 
+    public function cancelForm()
+    {
+        $this->showForm = false;
+        $this->editingTable = null;
+        $this->tableNumber = '';
+        $this->capacity = 4;
+        $this->section = '';
+        $this->shape = 'rectangle';
+        $this->width = 60;
+        $this->height = 60;
+        $this->xPosition = 0;
+        $this->yPosition = 0;
+        $this->resetErrorBag();
+    }
+
     public function save()
     {
         $this->validate();
@@ -89,6 +139,7 @@ class Tables extends Component
         }
 
         $data = [
+            'branch_id' => \App\Models\Tenant\Branch::first()->id ?? throw new \Exception('No branch found. Create a branch first.'),
             'table_number' => $this->tableNumber,
             'capacity' => $this->capacity,
             'section' => $this->section ?: null,

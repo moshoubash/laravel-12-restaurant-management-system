@@ -28,6 +28,6 @@
         </main>
     </div>
     @livewireScripts
-    @include('partials.role-debug')
+
 </body>
 </html>

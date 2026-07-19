@@ -123,6 +123,7 @@ class Orders extends Component
         $total = $subtotal + $tax;
 
         $order = Order::create([
+            'branch_id' => \App\Models\Tenant\Branch::first()->id,
             'order_number' => 'ORD-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
             'table_id' => $this->orderTableId ?: null,
             'user_id' => auth('tenant')->id(),

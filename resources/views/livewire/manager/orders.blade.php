@@ -30,10 +30,10 @@
             {{-- Items grid --}}
             <div class="flex-1">
                 <h3 class="mb-3 text-sm font-bold text-on-surface">
-                    {{ MenuCategory::find($selectedCategoryId)?->name ?? 'Select a category' }}
+                    {{ $this->categories->firstWhere('id', $selectedCategoryId)?->name ?? 'Select a category' }}
                 </h3>
                 <div class="grid grid-cols-3 gap-3">
-                    @php $category = MenuCategory::with(['items' => fn($q) => $q->where('is_active', true)->where('is_available', true)])->find($selectedCategoryId); @endphp
+                    @php $category = $this->categories->firstWhere('id', $selectedCategoryId); @endphp
                     @if($category)
                         @foreach($category->items as $item)
                             <button wire:click="addToCart({{ $item->id }})"

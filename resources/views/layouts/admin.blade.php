@@ -12,12 +12,12 @@
     @include('partials.dynamic-design-styles')
     <div class="flex h-screen overflow-hidden">
         @include('components.admin.sidebar')
-        <main class="flex-1 overflow-y-auto p-6">
+        <main class="flex-1 p-6 overflow-y-auto">
             {{ $slot }}
         </main>
     </div>
     @livewireScripts
     @stack('scripts')
-    @include('partials.role-debug')
+
 </body>
 </html>
