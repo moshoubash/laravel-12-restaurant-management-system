@@ -9,7 +9,9 @@ use App\Models\Tenant\MenuItem;
 use App\Models\Tenant\Order;
 use App\Models\Tenant\OrderItem;
 use App\Models\Tenant\Payment;
+use App\Models\Tenant\Shift;
 use App\Models\Tenant\Table;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -179,11 +181,14 @@ class Pos extends Component
             'paymentAmount' => 'required|numeric|min:' . $this->total,
         ]);
 
+        $activeShift = Shift::where('user_id', Auth::guard('tenant')->id())->where('status', 'open')->first();
+
         $order = Order::create([
             'branch_id' => \App\Models\Tenant\Branch::first()->id,
             'order_number' => 'POS-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
             'table_id' => $this->orderTableId ?: null,
-            'user_id' => auth('tenant')->id(),
+            'user_id' => Auth::guard('tenant')->id(),
+            'shift_id' => $activeShift?->id,
             'customer_id' => $this->customerId ?: null,
             'customer_name' => $this->customerName ?: null,
             'order_type' => $this->orderType,

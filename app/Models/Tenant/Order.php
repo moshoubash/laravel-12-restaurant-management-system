@@ -19,6 +19,7 @@ class Order extends Model
         'customer_name',
         'customer_email',
         'customer_phone',
+        'shift_id',
         'order_type',
         'status',
         'subtotal',
