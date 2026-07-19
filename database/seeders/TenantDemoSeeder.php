@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Tenant\Branch;
 use App\Models\Tenant\Customer;
+use App\Models\Tenant\FloorSection;
 use App\Models\Tenant\InventoryItem;
 use App\Models\Tenant\MenuCategory;
 use App\Models\Tenant\MenuItem;
@@ -28,6 +29,12 @@ class TenantDemoSeeder extends Seeder
             'email' => 'main@resaas.test',
             'is_active' => true,
         ]);
+
+        // Create floor sections for floor plan
+        $indoorSection = FloorSection::firstOrCreate(
+            ['branch_id' => $branch->id, 'name' => 'Indoor'],
+            ['color' => '#FF6B35', 'sort_order' => 1, 'is_active' => true]
+        );
 
         $starters = MenuCategory::firstOrCreate(['name' => 'Starters'], ['slug' => 'starters', 'sort_order' => 1, 'is_active' => true]);
         $mains = MenuCategory::firstOrCreate(['name' => 'Mains'], ['slug' => 'mains', 'sort_order' => 2, 'is_active' => true]);
@@ -113,14 +120,25 @@ class TenantDemoSeeder extends Seeder
         }
 
         foreach (range(1, 5) as $index) {
+            $isIndoor = $index <= 3;
+            // Grid positions for tables: 2x2 for indoor, 1x2 for patio
+            $x = $isIndoor ? (($index - 1) % 2) * 200 + 50 : 100;
+            $y = $isIndoor ? floor(($index - 1) / 2) * 150 + 50 : ($index - 4) * 150 + 50;
+
             Table::firstOrCreate([
                 'table_number' => $index,
             ], [
                 'branch_id' => $branch->id,
-                'section' => $index <= 3 ? 'Indoor' : 'Patio',
-                'capacity' => $index <= 3 ? 4 : 6,
+                'section' => $isIndoor ? 'Indoor' : 'Patio',
+                'seats' => $isIndoor ? 4 : 6,
                 'is_active' => true,
                 'qr_code' => '/menu?table=' . $index,
+                'x_position' => $x,
+                'y_position' => $y,
+                'width' => 80,
+                'height' => 80,
+                'shape' => $isIndoor ? 'square' : 'circle',
+                'status' => $index % 3 === 0 ? 'occupied' : 'available',
             ]);
         }
 
@@ -142,8 +160,8 @@ class TenantDemoSeeder extends Seeder
         ]);
 
         $inventoryItems = [
-            ['name' => 'Tomatoes', 'unit' => 'kg', 'stock_quantity' => 20, 'reorder_point' => 5, 'supplier_id' => $supplier->id],
-            ['name' => 'Lemons', 'unit' => 'kg', 'stock_quantity' => 15, 'reorder_point' => 5, 'supplier_id' => $supplier->id],
+            ['name' => 'Tomatoes', 'unit' => 'kg', 'quantity' => 20, 'reorder_level' => 5, 'supplier_id' => $supplier->id],
+            ['name' => 'Lemons', 'unit' => 'kg', 'quantity' => 15, 'reorder_level' => 5, 'supplier_id' => $supplier->id],
         ];
 
         foreach ($inventoryItems as $inventoryData) {
@@ -161,18 +179,15 @@ class TenantDemoSeeder extends Seeder
             'supplier_id' => $supplier->id,
             'branch_id' => $branch->id,
             'status' => 'draft',
-            'ordered_at' => now(),
+            'order_date' => now(),
         ]);
 
         PurchaseOrderItem::firstOrCreate([
             'purchase_order_id' => $po->id,
             'inventory_item_id' => InventoryItem::where('name', 'Tomatoes')->value('id'),
-            'item_name' => 'Tomatoes',
-            'unit' => 'kg',
-            'total_cost' => 12.00,
         ], [
             'quantity' => 10,
-            'unit_cost' => 1.20,
+            'unit_price' => 1.20,
         ]);
 
         Reservation::firstOrCreate([
@@ -184,7 +199,7 @@ class TenantDemoSeeder extends Seeder
             'table_id' => Table::where('table_number', 1)->value('id'),
             'customer_email' => 'farah@example.com',
             'customer_phone' => '+1 555 444 2211',
-            'guest_count' => 4,
+            'party_size' => 4,
             'status' => 'pending',
             'notes' => 'Window seat preferred',
         ]);
