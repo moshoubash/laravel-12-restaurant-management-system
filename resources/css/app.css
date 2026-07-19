@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+        @apply bg-surface-container-lowest text-on-surface;
+    }
+}
+
+@layer components {
+    .btn-primary {
+        @apply px-4 py-2 bg-primary text-white rounded font-medium hover:opacity-90 transition-opacity;
+    }
+
+    .btn-secondary {
+        @apply px-4 py-2 border border-surface-container-high rounded font-medium hover:bg-surface-container transition-colors;
+    }
+
+    .card {
+        @apply bg-surface-container-lowest rounded-lg border border-surface-container-high p-4;
+    }
+
+    .input {
+        @apply block w-full border border-surface-container-high rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary;
+    }
+}
