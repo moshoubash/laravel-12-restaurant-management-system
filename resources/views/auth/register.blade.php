@@ -5,7 +5,7 @@
             <p class="mt-1 text-sm text-secondary">Create Central Account</p>
         </div>
 
-        <form method="POST" action="{{ route('central.register') }}" class="space-y-4">
+        <form method="POST" action="{{ route('central.register.submit') }}" class="space-y-4">
             @csrf
             <div>
                 <label for="name" class="block text-sm font-medium text-on-surface">Name</label>

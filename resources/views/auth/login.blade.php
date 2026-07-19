@@ -5,7 +5,7 @@
             <p class="mt-1 text-sm text-secondary">Central Admin Login</p>
         </div>
 
-        <form method="POST" action="{{ route('tenant.login.post') }}" class="space-y-4">
+        <form method="POST" action="{{ route('central.login.submit') }}" class="space-y-4">
             @csrf
             <div>
                 <label for="email" class="block text-sm font-medium text-on-surface">Email</label>
