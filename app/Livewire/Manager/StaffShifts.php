@@ -28,6 +28,6 @@ class StaffShifts extends Component
     public function render()
     {
         return view('livewire.manager.staff-shifts')
-            ->layout('layouts.admin');
+            ->layout('layouts.manager');
     }
 }

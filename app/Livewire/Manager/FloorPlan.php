@@ -51,6 +51,6 @@ class FloorPlan extends Component
 
     public function render()
     {
-        return view('livewire.manager.floor-plan')->layout('layouts.admin');
+        return view('livewire.manager.floor-plan')->layout('layouts.manager');
     }
 }

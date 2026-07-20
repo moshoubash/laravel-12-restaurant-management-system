@@ -191,6 +191,6 @@ class Reports extends Component
             'paymentMethods',
             'hourlyDistribution',
             'recentOrders'
-        ))->layout('layouts.admin');
+        ))->layout('layouts.manager');
     }
 }

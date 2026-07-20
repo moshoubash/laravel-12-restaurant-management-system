@@ -202,6 +202,6 @@ class Orders extends Component
     public function render()
     {
         return view('livewire.manager.orders')
-            ->layout('layouts.admin');
+            ->layout('layouts.manager');
     }
 }

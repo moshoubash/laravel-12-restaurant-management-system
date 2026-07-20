@@ -4,8 +4,12 @@
     </div>
     <nav class="flex-1 overflow-y-auto p-4 space-y-1">
         <a href="{{ route('tenant.dashboard') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.dashboard') ? 'bg-primary-container text-on-primary-container' : '' }}">Dashboard</a>
-        <a href="{{ route('tenant.waiter.tables') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.waiter.tables*') ? 'bg-primary-container text-on-primary-container' : '' }}">Tables</a>
-        <a href="{{ route('tenant.waiter.orders') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.waiter.orders*') ? 'bg-primary-container text-on-primary-container' : '' }}">Orders</a>
+        <div class="text-xs text-on-surface-variant font-semibold uppercase tracking-wider px-3 pt-4 pb-1">Operations</div>
+        <a href="{{ route('tenant.manager.orders') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.manager.orders*') ? 'bg-primary-container text-on-primary-container' : '' }}">Orders</a>
+        <a href="{{ route('tenant.manager.staff-shifts') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.manager.staff-shifts*') ? 'bg-primary-container text-on-primary-container' : '' }}">Staff Shifts</a>
+        <a href="{{ route('tenant.manager.floor-plan') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.manager.floor-plan*') ? 'bg-primary-container text-on-primary-container' : '' }}">Floor Plan</a>
+        <div class="text-xs text-on-surface-variant font-semibold uppercase tracking-wider px-3 pt-4 pb-1">Reports</div>
+        <a href="{{ route('tenant.manager.reports') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.manager.reports*') ? 'bg-primary-container text-on-primary-container' : '' }}">Reports</a>
     </nav>
     <div class="p-4 border-t border-surface-container-high">
         <div class="mb-3">

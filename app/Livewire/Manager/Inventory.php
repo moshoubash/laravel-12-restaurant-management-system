@@ -8,6 +8,6 @@ class Inventory extends Component
 {
     public function render()
     {
-        return view('livewire.manager.inventory')->layout('layouts.admin');
+        return view('livewire.manager.inventory')->layout('layouts.manager');
     }
 }

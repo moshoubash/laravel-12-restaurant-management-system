@@ -8,6 +8,6 @@ class Menu extends Component
 {
     public function render()
     {
-        return view('livewire.manager.menu')->layout('layouts.admin');
+        return view('livewire.manager.menu')->layout('layouts.manager');
     }
 }
