@@ -23,7 +23,7 @@
             <span>Dashboard</span>
         </a>
 
-        <a href="{{ route('tenant.cashier.pos') }}" class="sidebar-link">
+        {{-- <a href="{{ route('tenant.cashier.pos') }}" class="sidebar-link">
             <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
             <span>POS</span>
         </a>
@@ -36,7 +36,7 @@
         <a href="{{ route('tenant.kitchen.orders') }}" class="sidebar-link">
             <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
             <span>Kitchen Display</span>
-        </a>
+        </a> --}}
 
         @if ($isOwnerOrAdmin)
             <a href="{{ route('tenant.admin.floor-plan') }}" class="sidebar-link {{ str_contains($currentRoute, 'admin.floor-plan') ? 'sidebar-link-active' : '' }}">
@@ -72,10 +72,10 @@
             <span>Staff</span>
         </a>
 
-        {{-- <a href="{{ route('tenant.admin.inventory') }}" class="sidebar-link {{ str_contains($currentRoute, 'admin.inventory') ? 'sidebar-link-active' : '' }}">
+        <a href="{{ route('tenant.admin.inventory') }}" class="sidebar-link {{ str_contains($currentRoute, 'admin.inventory') ? 'sidebar-link-active' : '' }}">
             <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
             <span>Inventory</span>
-        </a> --}}
+        </a>
 
         <a href="{{ route($isOwnerOrAdmin ? 'tenant.admin.reports' : 'tenant.manager.reports') }}" class="sidebar-link {{ str_contains($currentRoute, 'reports') ? 'sidebar-link-active' : '' }}">
             <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>

@@ -4,6 +4,7 @@ namespace App\Livewire\Waiter;
 
 use App\Models\Tenant\Order;
 use App\Models\Tenant\OrderItem;
+use App\Support\InventoryHelper;
 use App\Support\NotificationHelper;
 use Livewire\Component;
 
@@ -61,6 +62,8 @@ class Orders extends Component
             ]);
 
             NotificationHelper::sendToRole('cashier', 'Order #' . $order->order_number . ' Served', 'Table ' . ($order->table?->table_number ?? 'Takeaway'), 'order', route('tenant.cashier.pos'));
+
+            InventoryHelper::consumeOrderIngredients($order);
         }
     }
 
@@ -73,6 +76,8 @@ class Orders extends Component
             $order->update(['status' => 'served', 'served_at' => now()]);
 
             NotificationHelper::sendToRole('cashier', 'Order #' . $order->order_number . ' Served', 'Table ' . ($order->table?->table_number ?? 'Takeaway'), 'order', route('tenant.cashier.pos'));
+
+            InventoryHelper::consumeOrderIngredients($order);
         }
     }
 

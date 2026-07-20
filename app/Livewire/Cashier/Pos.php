@@ -11,6 +11,7 @@ use App\Models\Tenant\OrderItem;
 use App\Models\Tenant\Payment;
 use App\Models\Tenant\Shift;
 use App\Models\Tenant\Table;
+use App\Support\InventoryHelper;
 use App\Support\NotificationHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -260,6 +261,8 @@ class Pos extends Component
         $tableInfo = $order->table?->table_number ? 'Table ' . $order->table->table_number : 'Takeaway';
         NotificationHelper::sendToRole('admin', 'Payment Completed — #' . $order->order_number, number_format($this->total, 2) . ' via ' . ucfirst($this->paymentMethod), 'payment', route('tenant.manager.orders'));
         NotificationHelper::sendToRole('chef', 'New POS Order #' . $order->order_number, $tableInfo . ' — ' . $totalItems . ' items', 'order', route('tenant.kitchen.orders'));
+
+        InventoryHelper::consumeOrderIngredients($order);
 
         $this->dispatch('payment-completed', orderNumber: $order->order_number);
     }

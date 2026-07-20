@@ -7,6 +7,7 @@ use App\Models\Tenant\MenuItem;
 use App\Models\Tenant\Order;
 use App\Models\Tenant\OrderItem;
 use App\Models\Tenant\Table;
+use App\Support\InventoryHelper;
 use App\Support\NotificationHelper;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -202,7 +203,10 @@ class Orders extends Component
             'confirmed' => NotificationHelper::sendToRole('chef', 'Order #' . $order->order_number . ' Confirmed', $order->customer_name ?? 'Customer', 'order', route('tenant.kitchen.orders')),
             'preparing' => NotificationHelper::sendToRole('chef', 'Order #' . $order->order_number . ' In Preparation', $totalItems . ' items', 'order'),
             'ready' => NotificationHelper::sendToRole('waiter', 'Order #' . $order->order_number . ' Ready', 'Table ' . ($order->table?->table_number ?? 'Takeaway'), 'order', route('tenant.waiter.orders')),
-            'served' => NotificationHelper::sendToRole('waiter', 'Order #' . $order->order_number . ' Served', $order->customer_name ?? 'Customer', 'order'),
+            'served' => (function() use ($order) {
+                NotificationHelper::sendToRole('waiter', 'Order #' . $order->order_number . ' Served', $order->customer_name ?? 'Customer', 'order');
+                InventoryHelper::consumeOrderIngredients($order);
+            })(),
             'completed' => NotificationHelper::sendToRole('cashier', 'Order #' . $order->order_number . ' Completed — Payment Pending', number_format($order->total, 2), 'payment', route('tenant.cashier.pos')),
             'cancelled' => NotificationHelper::sendToRole('admin', 'Order #' . $order->order_number . ' Cancelled', 'Reason: ' . ($order->notes ?? 'N/A'), 'warning'),
             default => null,
