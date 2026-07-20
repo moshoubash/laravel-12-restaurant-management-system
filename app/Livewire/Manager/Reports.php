@@ -2,13 +2,17 @@
 
 namespace App\Livewire\Manager;
 
+use App\Exports\ReportExport;
 use App\Models\Tenant\Customer;
 use App\Models\Tenant\Order;
 use App\Models\Tenant\OrderItem;
+use App\Support\ReportHelper;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Reports extends Component
 {
@@ -169,6 +173,25 @@ class Reports extends Component
             ->latest()
             ->limit(10)
             ->get();
+    }
+
+    public function exportPdf()
+    {
+        $data = ReportHelper::gatherData($this->dateFrom, $this->dateTo, $this->branchId ? (int) $this->branchId : null);
+
+        $pdf = Pdf::loadView('exports.reports-pdf', $data);
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'report-' . $this->dateFrom . '-to-' . $this->dateTo . '.pdf'
+        );
+    }
+
+    public function exportExcel()
+    {
+        $data = ReportHelper::gatherData($this->dateFrom, $this->dateTo, $this->branchId ? (int) $this->branchId : null);
+        $rows = ReportHelper::toExcelRows($data);
+
+        return Excel::download(new ReportExport($rows), 'report-' . $this->dateFrom . '-to-' . $this->dateTo . '.xlsx');
     }
 
     public function render()
