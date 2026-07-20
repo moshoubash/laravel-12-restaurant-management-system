@@ -252,7 +252,7 @@
 
                     {{-- Actions --}}
                     <div class="mt-6 flex justify-end gap-3 pt-3 border-t border-surface-container-high">
-                        <button type="button" wire:click="showForm = false" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">
+                        <button type="button" wire:click="showForm = false" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">
                             Cancel
                         </button>
                         <button type="submit" class="rounded-lg bg-primary px-5 py-2 text-sm font-bold text-on-primary hover:bg-primary-container">
@@ -278,8 +278,8 @@
                     </div>
 
                     <div class="flex justify-end gap-3 pt-3 border-t border-surface-container-high">
-                        <button type="button" wire:click="showCancelModal = false" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">
-                            Close
+                        <button type="button" wire:click="showCancelModal = false" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">
+                            Cancel
                         </button>
                         <button type="submit" class="rounded-lg bg-error px-5 py-2 text-sm font-bold text-white hover:bg-error/95">
                             Cancel Reservation

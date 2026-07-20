@@ -10,7 +10,7 @@
             <div class="sidebar-logo">R</div>
             <div>
                 <p class="sidebar-brand-name">{{ config('app.name') }}</p>
-                <p class="sidebar-brand-branch">The Italian Place</p>
+                <p class="sidebar-brand-branch">{{ auth()->user()->getRoleNames()->first() ?? 'Staff' }} panel</p>
             </div>
         </div>
     </div>

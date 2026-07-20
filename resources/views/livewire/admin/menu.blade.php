@@ -141,7 +141,7 @@
                     </div>
                 </div>
                 <div class="mt-6 flex justify-end gap-3">
-                    <button wire:click="cancelCategoryForm" class="rounded border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">Cancel</button>
+                    <button type="button" wire:click="cancelCategoryForm" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">Cancel</button>
                     <button wire:click="saveCategory" class="rounded bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:bg-primary-container">Save</button>
                 </div>
             </div>
@@ -201,7 +201,7 @@
                     </div>
                 </div>
                 <div class="mt-6 flex justify-end gap-3">
-                    <button wire:click="cancelItemForm" class="rounded border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">Cancel</button>
+                    <button type="button" wire:click="cancelItemForm" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">Cancel</button>
                     <button wire:click="saveItem" class="rounded bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:bg-primary-container">Save</button>
                 </div>
             </div>
@@ -243,7 +243,7 @@
                     </div>
                 </div>
                 <div class="mt-6 flex justify-end gap-3">
-                    <button wire:click="cancelModifierForm" class="rounded border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">Cancel</button>
+                    <button type="button" wire:click="cancelModifierForm" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">Cancel</button>
                     <button wire:click="saveModifier" class="rounded bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:bg-primary-container">Save</button>
                 </div>
             </div>

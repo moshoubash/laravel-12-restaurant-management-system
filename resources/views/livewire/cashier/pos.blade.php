@@ -174,7 +174,7 @@
                     @endif
                 </div>
                 <div class="mt-6 flex justify-end gap-3">
-                    <button wire:click="showCheckout = false" class="rounded border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">Cancel</button>
+                    <button type="button" wire:click="showCheckout = false" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">Cancel</button>
                     <button wire:click="processPayment" class="rounded bg-primary px-6 py-2 text-sm font-bold text-on-primary hover:bg-primary-container">
                         Complete Payment
                     </button>

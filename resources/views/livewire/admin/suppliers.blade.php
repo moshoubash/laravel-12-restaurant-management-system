@@ -79,7 +79,7 @@
                         <input wire:model="paymentTerms" placeholder="e.g. Net 30" class="w-full rounded-lg border border-surface-container-high bg-surface-container-lowest px-3 py-2 text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
                     </div>
                     <div class="flex justify-end gap-3 pt-2">
-                        <button type="button" wire:click="cancelForm" class="px-4 py-2 border border-surface-container-high rounded-lg text-sm text-on-surface hover:bg-surface-container">Cancel</button>
+                        <button type="button" wire:click="cancelForm" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">Cancel</button>
                         <button type="submit" class="px-4 py-2 bg-primary text-on-primary rounded-lg text-sm font-bold hover:bg-primary/90">Save</button>
                     </div>
                 </form>

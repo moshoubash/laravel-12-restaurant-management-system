@@ -122,7 +122,7 @@
                     </div>
                     <div class="flex gap-3">
                         <button type="submit" class="flex-1 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary/90">Save</button>
-                        <button type="button" wire:click="closeSectionForm" class="flex-1 rounded-full border border-surface-container-high px-4 py-2 text-sm font-semibold hover:bg-surface-container-high">Cancel</button>
+                        <button type="button" wire:click="closeSectionForm" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -187,7 +187,7 @@
 
                     <div class="flex gap-3">
                         <button type="submit" class="flex-1 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary/90">Save Table</button>
-                        <button type="button" wire:click="closeTableForm" class="flex-1 rounded-full border border-surface-container-high px-4 py-2 text-sm font-semibold hover:bg-surface-container-high">Cancel</button>
+                        <button type="button" wire:click="closeTableForm" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">Cancel</button>
                     </div>
                 </form>
             </div>

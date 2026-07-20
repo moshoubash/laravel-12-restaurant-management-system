@@ -258,7 +258,7 @@ class Pos extends Component
 
         $totalItems = collect($this->cart)->sum('quantity');
         $tableInfo = $order->table?->table_number ? 'Table ' . $order->table->table_number : 'Takeaway';
-        NotificationHelper::sendToRole('admin', 'Payment Completed — #' . $order->order_number, number_format($this->total, 2) . ' via ' . ucfirst($this->paymentMethod), 'payment', route('tenant.orders'));
+        NotificationHelper::sendToRole('admin', 'Payment Completed — #' . $order->order_number, number_format($this->total, 2) . ' via ' . ucfirst($this->paymentMethod), 'payment', route('tenant.manager.orders'));
         NotificationHelper::sendToRole('chef', 'New POS Order #' . $order->order_number, $tableInfo . ' — ' . $totalItems . ' items', 'order', route('tenant.kitchen.orders'));
 
         $this->dispatch('payment-completed', orderNumber: $order->order_number);

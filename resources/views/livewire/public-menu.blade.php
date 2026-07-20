@@ -264,7 +264,7 @@
                     </div>
                 @endforeach
                 <div class="flex gap-3 mt-6">
-                    <button wire:click="cancelModifiers" class="flex-1 py-2.5 border border-surface-container-high rounded-lg font-medium hover:bg-surface-container transition">Cancel</button>
+                    <button type="button" wire:click="cancelModifiers" class="flex-1 rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">Cancel</button>
                     <button wire:click="confirmModifiers" class="flex-1 py-2.5 bg-primary text-on-primary rounded-lg font-medium hover:bg-primary/90 transition">Add to Cart</button>
                 </div>
             </div>
