@@ -21,6 +21,9 @@ class Dashboard extends Component
     public int $activeTables = 0;
     public int $staffOnDuty = 0;
     public float $avgOrderValue = 0;
+    public int $occupancyRate = 0;
+    public float $revenueTrend = 0;
+    public int $ordersTrend = 0;
     public array $weeklyRevenue = [];
     public float $maxRevenue = 0;
     public $recentOrders;
@@ -77,8 +80,15 @@ class Dashboard extends Component
         $this->todayRevenue = (float) (clone $todayPaid)->sum('total');
         $this->ordersToday = Order::whereDate('created_at', today())->count();
         $this->activeTables = Table::where('status', 'occupied')->count();
+        $totalTables = Table::count();
+        $this->occupancyRate = $totalTables > 0 ? (int) round(($this->activeTables / $totalTables) * 100) : 0;
         $this->staffOnDuty = StaffShift::whereNull('clock_out')->count();
         $this->avgOrderValue = $this->ordersToday > 0 ? $this->todayRevenue / $this->ordersToday : 0;
+
+        $yesterdayRevenue = (float) Order::whereDate('created_at', today()->subDay())->where('payment_status', 'paid')->sum('total');
+        $this->revenueTrend = $yesterdayRevenue > 0 ? round((($this->todayRevenue - $yesterdayRevenue) / $yesterdayRevenue) * 100, 1) : 0;
+        $yesterdayOrders = Order::whereDate('created_at', today()->subDay())->count();
+        $this->ordersTrend = $yesterdayOrders > 0 ? round((($this->ordersToday - $yesterdayOrders) / $yesterdayOrders) * 100, 1) : 0;
 
         $this->weeklyRevenue = collect(range(6, 0))->map(function ($daysAgo) {
             $date = now()->subDays($daysAgo);

@@ -16,7 +16,7 @@
                 <rect width="800" height="600" fill="url(#grid)" />
 
                 <!-- Section labels and tables -->
-                @foreach($tablesBySection as $section => $tables)
+                @foreach($this->tablesBySection as $section => $tables)
                     @php
                         $y_offset = 30;
                     @endphp

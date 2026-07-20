@@ -47,7 +47,7 @@
             <div>
                 <h1 class="text-xl font-bold text-primary">{{ config('app.name', 'Menu') }}</h1>
                 @if($this->table)
-                    <p class="text-sm text-secondary">Table #{{ $this->table->number }} &middot; Dine-in</p>
+                    <p class="text-sm text-secondary">Table #{{ $this->table->table_number }} &middot; Dine-in</p>
                 @endif
             </div>
             <button wire:click="openCheckout" class="relative flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-medium hover:bg-primary/90 transition">
