@@ -1,59 +1,173 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# RESaaS — Restaurant Management SaaS
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A multi-tenant restaurant management system built with Laravel, Livewire, and Tailwind CSS.
 
-## About Laravel
+## Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Backend:** Laravel 12, PHP 8.3
+- **Frontend:** Livewire v4, Alpine.js, Tailwind CSS v3, Vite
+- **Multi-Tenancy:** stancl/tenancy ^3.x (database-per-tenant)
+- **RBAC:** spatie/laravel-permission
+- **Database:** MySQL (central + per-tenant databases)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Multi-Tenancy
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Strategy:** Database-per-tenant
+- **Identification:** Domain/subdomain (`{slug}.resaas.test`)
+- **Central DB:** Tenants, domains, central admin users
+- **Tenant DB:** All restaurant-specific tables (menu, orders, inventory, etc.)
 
-## Learning Laravel
+### Tenant creation flow
+1. Admin creates tenant with name, slug, plan, domains
+2. `TenantCreated` event fires → pipeline creates database, runs migrations, seeds data
+3. Default roles, branches, menu categories, and tables are seeded
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Roles & Permissions
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Role | Description | Dashboard |
+|------|-------------|-----------|
+| **owner** | Full access | Revenue KPIs, 7-day chart, orders, top items, low stock, reservations |
+| **admin** | Full operational access | Same as owner |
+| **manager** | Day-to-day operations | Same KPIs + orders, staff shifts, floor plan, reports |
+| **chef** | Kitchen operations | Pending/preparing/ready counts, active orders (color-coded by elapsed time), low stock alerts |
+| **waiter** | Floor service | My active tables, my orders, pending orders with elapsed time |
+| **cashier** | Payment handling | Today's sales, shift summary, transactions, payment methods |
+| **customer** | Self-service portal | My orders, loyalty points, upcoming reservations (redirected to `/customer/menu`) |
 
-## Laravel Sponsors
+## Layouts
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Layout | Audience | Sidebar |
+|--------|----------|---------|
+| `layouts.admin` | Owner/Admin | Admin sidebar (all modules) |
+| `layouts.manager` | Manager | Manager sidebar (operations + reports) |
+| `layouts.kitchen` | Chef | Kitchen sidebar (orders, prep list, alerts) |
+| `layouts.waiter` | Waiter | Waiter sidebar (tables, orders) |
+| `layouts.cashier` | Cashier | Cashier sidebar (POS, invoices, shifts) |
+| `layouts.customer` | Customer | Top navbar (menu, orders, reservations, loyalty, profile) |
+| `layouts.public` | Public visitors | None |
+| `layouts.guest` | Login/Register | None |
 
-### Premium Partners
+All layouts support RTL for Arabic (`dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}"`).
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Features
 
-## Contributing
+### Menu Management (`/admin/menu`)
+- Categories, items, modifiers with CRUD
+- Dietary labels, allergens, pricing, availability scheduling
+- Drag-and-drop reordering
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Table & Floor Management (`/admin/tables`, `/admin/floor-plan`)
+- Visual floor plan designer with SVG canvas
+- Table CRUD with section/capacity/status
+- QR code generation per table
 
-## Code of Conduct
+### Order Management
+- **Waiter:** Table-side ordering with modifiers, split bills, transfer tables
+- **KDS (Kitchen):** Real-time order display with elapsed time coloring
+- **Status workflow:** pending → confirmed → preparing → ready → served → completed
+- Order types: dine-in, takeaway, delivery, online
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### POS & Billing (`/cashier/pos`)
+- Quick item selection by category
+- Split bill, multiple payment methods (cash, card, Stripe, PayPal)
+- Tax calculation, service charge, tips
+- Receipt printing (thermal, 80mm format)
+- Shift open/close with cash reconciliation
 
-## Security Vulnerabilities
+### Customer Portal (Public + Authenticated)
+- **Public:** Full menu browsing, cart with modifiers, checkout, order tracking, reservations
+- **Authenticated:** Order history, loyalty points, reservations, profile management
+- QR code → `/menu?table=X` for table-side ordering
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Inventory & Supply Chain
+- Inventory items with SKU, stock tracking, reorder points
+- Supplier management
+- Purchase orders (draft → ordered → received → cancelled)
+- Recipes linking menu items to ingredients
+- Low stock alerts
 
-## License
+### Staff Management
+- Staff profiles with roles
+- Shift scheduling, clock in/out, break tracking
+- Sales per employee tracking
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Loyalty Program
+- Points per spend, visit-based rewards
+- Birthday rewards, tiered programs
+- Customer-facing points balance and transaction history
+
+### Reservations
+- Date/time picker with auto table assignment
+- Walk-in management
+- Customer notifications
+
+### Reports & Analytics (`/admin/reports`)
+- Sales by day/week/month/hour
+- Top-selling items, peak hours, average order value
+- Table turnover rate, staff performance
+- Tax reports, inventory usage vs sales
+- Export to PDF/Excel
+
+### Design Config (`/admin/design`)
+- Customizable colors, logo, favicon
+- Receipt header/footer customization
+- Restaurant branding for online ordering portal
+
+### Multi-Language
+- English + Arabic (RTL) support
+- Language switcher in sidebar
+- Translation file at `lang/ar.json`
+
+## Project Structure
+
+```
+app/
+├── Livewire/          # Role-based components (Admin/, Manager/, Kitchen/, Waiter/, Cashier/, Customer/)
+├── Models/Tenant/     # Per-tenant models (Order, MenuItem, Table, etc.)
+├── Mail/              # OrderConfirmation, InvoiceMail
+├── Http/Middleware/   # SetLocale, SecurityHeaders, ApplySmtpSettings
+├── Console/Commands/  # CreateTenant, GenerateReports
+└── Providers/         # TenancyServiceProvider, AppServiceProvider
+
+database/
+├── migrations/        # Central DB (tenants, domains, users)
+└── migrations/tenant/ # Tenant DB (all restaurant tables)
+
+resources/
+├── views/layouts/     # Role-specific layouts
+├── views/livewire/    # Component views (mirrors Livewire structure)
+└── views/components/  # Sidebars, navbar, shared components
+
+routes/
+├── tenant.php         # All tenant-specific routes
+├── auth-tenant.php    # Tenant login/register
+├── web.php            # Central app routes
+└── api.php            # Sanctum API routes
+```
+
+## Setup
+
+```bash
+git clone <repo>
+cd resaas
+
+cp .env.example .env
+# Configure DB connections (central + tenant template)
+
+composer install
+npm install && npm run build
+
+php artisan key:generate
+php artisan migrate
+php artisan db:seed --class=RolesAndPermissionsSeeder
+php artisan tenants:migrate --tenant=1
+php artisan tenants:seed --tenant=1
+```
+
+## Design System
+
+- **Primary:** Warm amber/orange (rgb 232 89 12)
+- **Typography:** Inter (English), Cairo (Arabic)
+- **Components:** `btn-primary`, `btn-secondary`, `card`, `input` utility classes
+- **Colors:** Material Design 3-inspired surface colors via CSS custom properties
+- Restaurants can customize colors/logo via Design Config at runtime
