@@ -35,6 +35,10 @@ class TenantDemoSeeder extends Seeder
             ['branch_id' => $branch->id, 'name' => 'Indoor'],
             ['color' => '#FF6B35', 'sort_order' => 1, 'is_active' => true]
         );
+        FloorSection::firstOrCreate(
+            ['branch_id' => $branch->id, 'name' => 'Patio'],
+            ['color' => '#4CAF50', 'sort_order' => 2, 'is_active' => true]
+        );
 
         $starters = MenuCategory::firstOrCreate(['name' => 'Starters'], ['slug' => 'starters', 'sort_order' => 1, 'is_active' => true]);
         $mains = MenuCategory::firstOrCreate(['name' => 'Mains'], ['slug' => 'mains', 'sort_order' => 2, 'is_active' => true]);
@@ -130,7 +134,7 @@ class TenantDemoSeeder extends Seeder
             ], [
                 'branch_id' => $branch->id,
                 'section' => $isIndoor ? 'Indoor' : 'Patio',
-                'seats' => $isIndoor ? 4 : 6,
+                'capacity' => $isIndoor ? 4 : 6,
                 'is_active' => true,
                 'qr_code' => '/menu?table=' . $index,
                 'x_position' => $x,

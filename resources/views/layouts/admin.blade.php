@@ -8,7 +8,9 @@
     @livewireStyles
     @stack('styles')
 </head>
-<body class="font-sans antialiased bg-surface text-on-surface">
+<body class="font-sans antialiased bg-surface text-on-surface"
+      x-data="{ toast: { show: false, message: '', type: 'success' } }"
+      x-on:toast.window="toast.show = true; toast.message = $event.detail.message; toast.type = $event.detail.type; setTimeout(() => toast.show = false, 3000)">
     @include('partials.dynamic-design-styles')
 
     <div class="flex h-screen overflow-hidden">
@@ -67,6 +69,12 @@
                 </div>
             </main>
         </div>
+    </div>
+
+    <div x-show="toast.show" x-cloak x-transition
+         class="fixed bottom-6 right-6 z-[9999] rounded-xl px-5 py-3 text-sm font-semibold text-white shadow-lg"
+         :class="toast.type === 'success' ? 'bg-green-600' : 'bg-red-600'"
+         x-text="toast.message">
     </div>
 
     @livewireScripts

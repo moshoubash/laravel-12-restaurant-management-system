@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\Tenant\Branch;
 use App\Models\Tenant\FloorSection;
 use App\Models\Tenant\Table;
 use Livewire\Component;
@@ -13,7 +14,7 @@ class FloorPlanManager extends Component
     public $showTableForm = false;
     public $showSectionForm = false;
 
-    public $tableName = '';
+    public $tableNumber = '';
     public $tableCapacity = 4;
     public $tableSection = '';
     public $tableX = 0;
@@ -46,10 +47,45 @@ class FloorPlanManager extends Component
         return $this->tables->groupBy('section');
     }
 
+    public function getSectionBoundsProperty()
+    {
+        $bounds = [];
+        foreach ($this->tablesBySection as $sectionName => $sectionTables) {
+            $sectionModel = $this->sections->where('name', $sectionName)->first();
+            $minX = $sectionTables->min(fn($t) => ($t->x_position ?? 100)) - 15;
+            $minY = $sectionTables->min(fn($t) => ($t->y_position ?? 100)) - 15;
+            $maxX = $sectionTables->max(fn($t) => ($t->x_position ?? 100) + ($t->width ?? 60)) + 15;
+            $maxY = $sectionTables->max(fn($t) => ($t->y_position ?? 100) + ($t->height ?? 60)) + 15;
+            $bounds[] = [
+                'name' => $sectionName,
+                'color' => $sectionModel ? $sectionModel->color : '#f3f4f6',
+                'x' => $minX,
+                'y' => $minY,
+                'w' => $maxX - $minX,
+                'h' => $maxY - $minY,
+            ];
+        }
+        return $bounds;
+    }
+
+    public function updateTablePosition($tableId, $x, $y, $section = null)
+    {
+        $table = Table::findOrFail($tableId);
+        $data = [
+            'x_position' => (float) $x,
+            'y_position' => (float) $y,
+        ];
+        if ($section) {
+            $data['section'] = $section;
+        }
+        $table->update($data);
+        $this->dispatch('toast', type: 'success', message: 'Table ' . $table->table_number . ' moved.');
+    }
+
     public function createTable()
     {
         $this->editingTable = null;
-        $this->tableName = '';
+        $this->tableNumber = (Table::max('table_number') ?? 0) + 1;
         $this->tableCapacity = 4;
         $this->tableSection = $this->sections->first()?->name ?? '';
         $this->tableX = 0;
@@ -64,7 +100,7 @@ class FloorPlanManager extends Component
     {
         $table = Table::findOrFail($tableId);
         $this->editingTable = $tableId;
-        $this->tableName = 'Table ' . $table->table_number;
+        $this->tableNumber = $table->table_number;
         $this->tableCapacity = $table->capacity;
         $this->tableSection = $table->section ?? '';
         $this->tableX = $table->x_position ?? 0;
@@ -78,6 +114,7 @@ class FloorPlanManager extends Component
     public function saveTable()
     {
         $this->validate([
+            'tableNumber' => 'required|integer|min:1',
             'tableCapacity' => 'required|integer|min:1',
             'tableSection' => 'required|string',
             'tableX' => 'required|numeric',
@@ -87,21 +124,43 @@ class FloorPlanManager extends Component
             'tableShape' => 'required|in:rectangle,circle,square',
         ]);
 
+        $existing = Table::where('table_number', $this->tableNumber)
+            ->when($this->editingTable, fn($q) => $q->where('id', '!=', $this->editingTable))
+            ->first();
+        if ($existing) {
+            $this->addError('tableNumber', 'Table number already exists.');
+            return;
+        }
+
+        $data = [
+            'branch_id' => Branch::first()->id ?? throw new \Exception('No branch found. Create a branch first.'),
+            'table_number' => $this->tableNumber,
+            'capacity' => $this->tableCapacity,
+            'section' => $this->tableSection,
+            'x_position' => (float) $this->tableX,
+            'y_position' => (float) $this->tableY,
+            'width' => (float) $this->tableWidth,
+            'height' => (float) $this->tableHeight,
+            'shape' => $this->tableShape,
+        ];
+
         if ($this->editingTable) {
-            $table = Table::findOrFail($this->editingTable);
-            $table->update([
-                'capacity' => $this->tableCapacity,
-                'section' => $this->tableSection,
-                'x_position' => (float) $this->tableX,
-                'y_position' => (float) $this->tableY,
-                'width' => (float) $this->tableWidth,
-                'height' => (float) $this->tableHeight,
-                'shape' => $this->tableShape,
-            ]);
+            Table::findOrFail($this->editingTable)->update($data);
+            $this->dispatch('toast', type: 'success', message: 'Table updated.');
+        } else {
+            if ((float) $this->tableX === 0.0 && (float) $this->tableY === 0.0) {
+                $sectionBounds = collect($this->sectionBounds)->firstWhere('name', $this->tableSection);
+                if ($sectionBounds) {
+                    $data['x_position'] = $sectionBounds['x'] + 30;
+                    $data['y_position'] = $sectionBounds['y'] + 40;
+                }
+            }
+            $table = Table::create($data);
+            $table->update(['qr_code' => url('/menu?table=' . $table->id)]);
+            $this->dispatch('toast', type: 'success', message: 'Table created.');
         }
 
         $this->closeTableForm();
-        $this->dispatch('toast', type: 'success', message: 'Table updated.');
     }
 
     public function closeTableForm()
@@ -150,17 +209,19 @@ class FloorPlanManager extends Component
                 'description' => $this->sectionDescription,
                 'color' => $this->sectionColor,
             ]);
+            $this->dispatch('toast', type: 'success', message: 'Section updated.');
         } else {
             FloorSection::create([
                 'name' => $this->sectionName,
                 'description' => $this->sectionDescription,
                 'color' => $this->sectionColor,
                 'sort_order' => $this->sections->max('sort_order') + 1,
+                'branch_id' => Branch::first()->id ?? throw new \Exception('No branch found. Create a branch first.'),
             ]);
+            $this->dispatch('toast', type: 'success', message: 'Section created.');
         }
 
         $this->closeSectionForm();
-        $this->dispatch('toast', type: 'success', message: 'Section updated.');
     }
 
     public function closeSectionForm()
@@ -175,12 +236,41 @@ class FloorPlanManager extends Component
         $this->dispatch('toast', type: 'success', message: 'Section deleted.');
     }
 
+    public function arrangeTables()
+    {
+        foreach ($this->sections as $section) {
+            $sectionTables = Table::where('section', $section->name)
+                ->where('is_active', true)
+                ->orderBy('table_number')
+                ->get();
+
+            $sectionBounds = collect($this->sectionBounds)->firstWhere('name', $section->name);
+            $startX = $sectionBounds ? $sectionBounds['x'] + 30 : 30;
+            $startY = $sectionBounds ? $sectionBounds['y'] + 40 : 40;
+            $cols = 4;
+            $gapX = 90;
+            $gapY = 90;
+
+            foreach ($sectionTables as $i => $table) {
+                $col = $i % $cols;
+                $row = intdiv($i, $cols);
+                $table->update([
+                    'x_position' => $startX + $col * $gapX,
+                    'y_position' => $startY + $row * $gapY,
+                ]);
+            }
+        }
+
+        $this->dispatch('toast', type: 'success', message: 'Tables arranged.');
+    }
+
     public function render()
     {
         return view('livewire.admin.floor-plan-manager', [
             'sections' => $this->sections,
             'tables' => $this->tables,
             'tablesBySection' => $this->tablesBySection,
+            'sectionBounds' => $this->sectionBounds,
         ])->layout('layouts.admin');
     }
 }

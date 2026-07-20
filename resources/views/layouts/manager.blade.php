@@ -59,6 +59,15 @@
         </div>
     </div>
 
+    <div x-data="{ toast: { show: false, message: '', type: 'success' } }"
+         x-on:toast.window="toast.show = true; toast.message = $event.detail.message; toast.type = $event.detail.type; setTimeout(() => toast.show = false, 3000)">
+        <div x-show="toast.show" x-cloak x-transition
+             class="fixed bottom-6 right-6 z-[9999] rounded-xl px-5 py-3 text-sm font-semibold text-white shadow-lg"
+             :class="toast.type === 'success' ? 'bg-green-600' : 'bg-red-600'"
+             x-text="toast.message">
+        </div>
+    </div>
+
     @livewireScripts
     @stack('scripts')
 </body>

@@ -1,13 +1,17 @@
 <div class="space-y-6">
     <div>
         <h1 class="text-2xl font-bold">Floor Plan View</h1>
-        <p class="mt-2 text-sm text-secondary">View and manage table status in real time. Click on a table to see details.</p>
+        <p class="mt-2 text-sm text-secondary">View and manage table status in real time. Click a table for details.</p>
     </div>
 
     <div class="rounded-3xl border border-surface-container-high bg-surface-container p-6 shadow-sm">
+        <div class="mb-4 flex items-center justify-between">
+            <h2 class="font-semibold">Floor Plan Layout</h2>
+            <button wire:click="arrangeTables" class="rounded-full border border-surface-container-high px-3 py-1 text-sm font-medium text-on-surface hover:bg-surface-container transition">Arrange</button>
+        </div>
         <div class="overflow-x-auto">
-            <svg width="100%" height="600" viewBox="0 0 800 600" class="border border-surface-container-high rounded-lg bg-surface-container-lowest">
-                <!-- Background grid -->
+            <svg width="100%" height="600" viewBox="0 0 800 600"
+                 class="border border-surface-container-high rounded-lg bg-surface-container-lowest">
                 <defs>
                     <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
                         <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e5e7eb" stroke-width="0.5"/>
@@ -15,35 +19,32 @@
                 </defs>
                 <rect width="800" height="600" fill="url(#grid)" />
 
-                <!-- Section labels and tables -->
-                @foreach($this->tablesBySection as $section => $tables)
-                    @php
-                        $y_offset = 30;
-                    @endphp
-                    <text x="15" y="{{ $y_offset }}" font-size="14" font-weight="bold" fill="#374151">{{ $section ?? 'No Section' }}</text>
+                @foreach($sectionBounds as $bg)
+                    <rect x="{{ $bg['x'] }}" y="{{ $bg['y'] }}" width="{{ $bg['w'] }}" height="{{ $bg['h'] }}" fill="#e5e7eb" opacity="0.15" rx="8" />
+                    <text x="{{ $bg['x'] + 8 }}" y="{{ $bg['y'] + 16 }}" font-size="11" font-weight="bold" fill="#374151">{{ $bg['name'] }}</text>
+                @endforeach
 
-                    @foreach($tables as $table)
-                        @php
-                            $x = $table->x_position ?? 100;
-                            $y = $table->y_position ?? 100;
-                            $w = $table->width ?? 60;
-                            $h = $table->height ?? 60;
-                            $statusColor = match($table->status) {
-                                'occupied' => '#dc2626',
-                                'reserved' => '#f59e0b',
-                                default => '#10b981',
-                            };
-                        @endphp
-                        <g wire:click="selectTable({{ $table->id }})" style="cursor: pointer;">
-                            @if($table->shape === 'circle')
-                                <circle cx="{{ $x + $w/2 }}" cy="{{ $y + $h/2 }}" r="{{ $w/2 }}" fill="{{ $statusColor }}" opacity="0.8" stroke="#1f2937" stroke-width="2" />
-                            @else
-                                <rect x="{{ $x }}" y="{{ $y }}" width="{{ $w }}" height="{{ $h }}" fill="{{ $statusColor }}" opacity="0.8" stroke="#1f2937" stroke-width="2" rx="4" />
-                            @endif
-                            <text x="{{ $x + $w/2 }}" y="{{ $y + $h/2 + 5 }}" text-anchor="middle" font-size="11" font-weight="bold" fill="white">T{{ $table->table_number }}</text>
-                            <text x="{{ $x + $w/2 }}" y="{{ $y + $h + 18 }}" text-anchor="middle" font-size="9" fill="#6b7280">{{ ucfirst($table->status) }}</text>
-                        </g>
-                    @endforeach
+                @foreach($this->tables as $table)
+                    @php
+                        $x = $table->x_position ?? 100;
+                        $y = $table->y_position ?? 100;
+                        $w = $table->width ?? 60;
+                        $h = $table->height ?? 60;
+                        $statusColor = match($table->status) {
+                            'occupied' => '#dc2626',
+                            'reserved' => '#f59e0b',
+                            default => '#10b981',
+                        };
+                    @endphp
+                    <g wire:click="selectTable({{ $table->id }})" style="cursor: pointer;">
+                        @if($table->shape === 'circle')
+                            <circle cx="{{ $x + $w/2 }}" cy="{{ $y + $h/2 }}" r="{{ $w/2 }}" fill="{{ $statusColor }}" opacity="0.8" stroke="#1f2937" stroke-width="2" />
+                        @else
+                            <rect x="{{ $x }}" y="{{ $y }}" width="{{ $w }}" height="{{ $h }}" fill="{{ $statusColor }}" opacity="0.8" stroke="#1f2937" stroke-width="2" rx="4" />
+                        @endif
+                        <text x="{{ $x + $w/2 }}" y="{{ $y + $h/2 + 5 }}" text-anchor="middle" font-size="11" font-weight="bold" fill="white">T{{ $table->table_number }}</text>
+                        <text x="{{ $x + $w/2 }}" y="{{ $y + $h + 18 }}" text-anchor="middle" font-size="9" fill="#6b7280">{{ ucfirst($table->status) }}</text>
+                    </g>
                 @endforeach
             </svg>
         </div>

@@ -20,7 +20,7 @@
                         </div>
                         <div class="flex gap-1">
                             <button wire:click="editSection({{ $section->id }})" class="text-xs text-primary hover:underline">Edit</button>
-                            <button wire:click="deleteSection({{ $section->id }})" class="text-xs text-error hover:underline" onclick="return confirm('Delete section?');">Delete</button>
+                            <button wire:click="deleteSection({{ $section->id }})" wire:confirm="Delete this section?" class="text-xs text-error hover:underline">Delete</button>
                         </div>
                     </div>
                 @endforeach
@@ -34,12 +34,15 @@
         <div class="col-span-3 rounded-3xl border border-surface-container-high bg-surface-container p-4 shadow-sm">
             <div class="mb-4 flex items-center justify-between">
                 <h2 class="font-semibold">Floor Plan Layout</h2>
-                <button wire:click="createTable" class="rounded-full bg-primary px-3 py-1 text-sm text-on-primary hover:bg-primary/90">+ Add Table</button>
+                <div class="flex gap-2">
+                    <button wire:click="arrangeTables" class="rounded-full border border-surface-container-high px-3 py-1 text-sm font-medium text-on-surface hover:bg-surface-container transition">Arrange</button>
+                    <button wire:click="createTable" class="rounded-full bg-primary px-3 py-1 text-sm text-on-primary hover:bg-primary/90">+ Add Table</button>
+                </div>
             </div>
 
             <div class="overflow-x-auto">
-                <svg width="100%" height="600" viewBox="0 0 800 600" class="border border-surface-container-high rounded-lg bg-surface-container-lowest">
-                    <!-- Background grid -->
+                <svg width="100%" height="600" viewBox="0 0 800 600"
+                     class="border border-surface-container-high rounded-lg bg-surface-container-lowest">
                     <defs>
                         <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
                             <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e5e7eb" stroke-width="0.5"/>
@@ -47,22 +50,11 @@
                     </defs>
                     <rect width="800" height="600" fill="url(#grid)" />
 
-                    <!-- Section backgrounds -->
-                    @foreach($tablesBySection as $section => $tables)
-                        @php
-                            $sectionModel = $sections->where('name', $section)->first();
-                            $bgColor = $sectionModel ? $sectionModel->color : '#f3f4f6';
-                        @endphp
-                        <g opacity="0.1">
-                            @foreach($tables as $table)
-                                @if($loop->first)
-                                    <text x="10" y="30" font-size="12" fill="#6b7280">{{ $section ?? 'No Section' }}</text>
-                                @endif
-                            @endforeach
-                        </g>
+                    @foreach($sectionBounds as $bg)
+                        <rect x="{{ $bg['x'] }}" y="{{ $bg['y'] }}" width="{{ $bg['w'] }}" height="{{ $bg['h'] }}" fill="{{ $bg['color'] }}" opacity="0.08" rx="8" />
+                        <text x="{{ $bg['x'] + 8 }}" y="{{ $bg['y'] + 16 }}" font-size="11" font-weight="bold" fill="{{ $bg['color'] }}">{{ $bg['name'] }}</text>
                     @endforeach
 
-                    <!-- Tables -->
                     @foreach($tables as $table)
                         @php
                             $x = $table->x_position ?? 100;
@@ -73,11 +65,11 @@
                         @endphp
                         <g wire:click="editTable({{ $table->id }})" style="cursor: pointer;">
                             @if($table->shape === 'circle')
-                                <circle cx="{{ $x + $w/2 }}" cy="{{ $y + $h/2 }}" r="{{ $w/2 }}" fill="{{ $active }}" opacity="0.8" stroke="#1f2937" stroke-width="2" />
+                                <circle cx="{{ $x + $w/2 }}" cy="{{ $y + $h/2 }}" r="{{ $w/2 }}" fill="{{ $active }}" opacity="0.85" stroke="#1f2937" stroke-width="2" />
                             @else
-                                <rect x="{{ $x }}" y="{{ $y }}" width="{{ $w }}" height="{{ $h }}" fill="{{ $active }}" opacity="0.8" stroke="#1f2937" stroke-width="2" rx="4" />
+                                <rect x="{{ $x }}" y="{{ $y }}" width="{{ $w }}" height="{{ $h }}" fill="{{ $active }}" opacity="0.85" stroke="#1f2937" stroke-width="2" rx="4" />
                             @endif
-                            <text x="{{ $x + $w/2 }}" y="{{ $y + $h/2 + 5 }}" text-anchor="middle" font-size="10" font-weight="bold" fill="white">T{{ $table->table_number }}</text>
+                            <text x="{{ $x + $w/2 }}" y="{{ $y + $h/2 + 4 }}" text-anchor="middle" font-size="10" font-weight="bold" fill="white">T{{ $table->table_number }}</text>
                         </g>
                     @endforeach
                 </svg>
@@ -137,20 +129,26 @@
                 <form wire:submit="saveTable" class="mt-4 space-y-4">
                     <div class="grid grid-cols-2 gap-4">
                         <div>
+                            <label class="block text-sm font-medium">Table #</label>
+                            <input type="number" wire:model="tableNumber" min="1" class="mt-1 block w-full rounded border border-surface-container-high bg-surface-container-lowest px-3 py-2 text-on-surface focus:border-primary focus:ring-primary" required>
+                            @error('tableNumber') <p class="mt-1 text-sm text-error">{{ $message }}</p> @enderror
+                        </div>
+                        <div>
                             <label class="block text-sm font-medium">Capacity</label>
                             <input type="number" wire:model="tableCapacity" min="1" class="mt-1 block w-full rounded border border-surface-container-high bg-surface-container-lowest px-3 py-2 text-on-surface focus:border-primary focus:ring-primary" required>
                             @error('tableCapacity') <p class="mt-1 text-sm text-error">{{ $message }}</p> @enderror
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium">Section</label>
-                            <select wire:model="tableSection" class="mt-1 block w-full rounded border border-surface-container-high bg-surface-container-lowest px-3 py-2 text-on-surface focus:border-primary focus:ring-primary" required>
-                                <option value="">Select Section</option>
-                                @foreach($sections as $section)
-                                    <option value="{{ $section->name }}">{{ $section->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('tableSection') <p class="mt-1 text-sm text-error">{{ $message }}</p> @enderror
-                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium">Section</label>
+                        <select wire:model="tableSection" class="mt-1 block w-full rounded border border-surface-container-high bg-surface-container-lowest px-3 py-2 text-on-surface focus:border-primary focus:ring-primary" required>
+                            <option value="">Select Section</option>
+                            @foreach($sections as $section)
+                                <option value="{{ $section->name }}">{{ $section->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('tableSection') <p class="mt-1 text-sm text-error">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="grid grid-cols-3 gap-4">
