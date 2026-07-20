@@ -42,7 +42,7 @@
     </nav>
 
     <div class="sidebar-footer">
-        <div class="flex items-center gap-2 px-3 py-2">
+        {{-- <div class="flex items-center gap-2 px-3 py-2">
             <form action="{{ route('tenant.locale.switch') }}" method="POST" class="flex-1">
                 @csrf
                 <select name="locale" onchange="this.form.submit()" class="input-select text-xs py-1.5 px-2">
@@ -50,7 +50,7 @@
                     <option value="ar" {{ app()->getLocale() === 'ar' ? 'selected' : '' }}>العربية</option>
                 </select>
             </form>
-        </div>
+        </div> --}}
         <form method="POST" action="{{ route('tenant.logout') }}" class="px-3">
             @csrf
             <button type="submit" class="sidebar-link w-full text-error hover:bg-error/5">
