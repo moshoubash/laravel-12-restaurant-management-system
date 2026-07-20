@@ -12,6 +12,10 @@ Route::middleware(['guest:tenant'])->group(function () {
         $credentials = $request->only('email', 'password');
 
         if (auth()->guard('tenant')->attempt($credentials)) {
+            $user = auth()->guard('tenant')->user();
+            if ($user->hasRole('customer')) {
+                return redirect()->intended(route('tenant.customer.menu'));
+            }
             return redirect()->intended(route('tenant.dashboard'));
         }
 

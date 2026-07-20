@@ -3,7 +3,7 @@
         <a href="{{ route('tenant.menu') }}" class="font-bold text-lg text-primary">{{ config('app.name') }}</a>
         <div class="flex items-center gap-4 text-sm">
             @auth('tenant')
-                <a href="{{ route('tenant.customer.menu') }}" class="hover:text-primary">Menu</a>
+                <a href="{{ route('tenant.menu') }}" class="hover:text-primary">Menu</a>
                 <a href="{{ route('tenant.customer.orders') }}" class="hover:text-primary">Orders</a>
                 <a href="{{ route('tenant.customer.reservations') }}" class="hover:text-primary">Reservations</a>
                 <a href="{{ route('tenant.customer.loyalty') }}" class="hover:text-primary">Loyalty</a>

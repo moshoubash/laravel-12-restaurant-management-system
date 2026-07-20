@@ -16,14 +16,12 @@
             <div class="text-xs text-on-surface-variant font-semibold uppercase tracking-wider px-3 pt-4 pb-1">Operations</div>
             <a href="{{ route('tenant.manager.orders') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.manager.orders*') ? 'bg-primary-container text-on-primary-container' : '' }}">Orders</a>
             <a href="{{ route('tenant.manager.staff-shifts') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.manager.staff-shifts*') ? 'bg-primary-container text-on-primary-container' : '' }}">Staff Shifts</a>
-            <a href="{{ route($isOwnerOrAdmin ? 'tenant.admin.menu' : 'tenant.manager.menu') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.*.menu*') ? 'bg-primary-container text-on-primary-container' : '' }}">Menu</a>
-            <a href="{{ route($isOwnerOrAdmin ? 'tenant.admin.inventory' : 'tenant.manager.inventory') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.*.inventory*') ? 'bg-primary-container text-on-primary-container' : '' }}">Inventory</a>
             @if ($isOwnerOrAdmin)
+                <a href="{{ route('tenant.admin.menu') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.*.menu*') ? 'bg-primary-container text-on-primary-container' : '' }}">Menu</a>
                 <a href="{{ route('tenant.admin.tables') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.tables*') ? 'bg-primary-container text-on-primary-container' : '' }}">Tables</a>
                 <a href="{{ route('tenant.admin.floor-plan') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.floor-plan*') ? 'bg-primary-container text-on-primary-container' : '' }}">Floor Plan</a>
                 <a href="{{ route('tenant.admin.reservations') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.reservations*') ? 'bg-primary-container text-on-primary-container' : '' }}">Reservations</a>
                 <a href="{{ route('tenant.admin.customers') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.customers*') ? 'bg-primary-container text-on-primary-container' : '' }}">Customers</a>
-                <a href="{{ route('tenant.admin.branches') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.branches*') ? 'bg-primary-container text-on-primary-container' : '' }}">Branches</a>
                 <a href="{{ route('tenant.admin.suppliers') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.suppliers*') ? 'bg-primary-container text-on-primary-container' : '' }}">Suppliers</a>
                 <a href="{{ route('tenant.admin.purchase-orders') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.purchase-orders*') ? 'bg-primary-container text-on-primary-container' : '' }}">Purchase Orders</a>
                 <a href="{{ route('tenant.admin.recipes') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.recipes*') ? 'bg-primary-container text-on-primary-container' : '' }}">Recipes</a>
@@ -36,12 +34,12 @@
         @if ($isOwnerOrAdmin)
             <div class="text-xs text-on-surface-variant font-semibold uppercase tracking-wider px-3 pt-4 pb-1">Administration</div>
             <a href="{{ route('tenant.admin.staff') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.staff*') ? 'bg-primary-container text-on-primary-container' : '' }}">Staff</a>
-            <a href="{{ route('tenant.admin.users') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.users*') ? 'bg-primary-container text-on-primary-container' : '' }}">Users</a>
-            <a href="{{ route('tenant.admin.design') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.design*') ? 'bg-primary-container text-on-primary-container' : '' }}">Design</a>
-            <a href="{{ route('tenant.admin.smtp-settings') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.smtp-settings*') ? 'bg-primary-container text-on-primary-container' : '' }}">SMTP Settings</a>
-            <a href="{{ route('tenant.admin.integrations') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.integrations*') ? 'bg-primary-container text-on-primary-container' : '' }}">Integrations</a>
-            <a href="{{ route('tenant.admin.roles-permissions') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.roles-permissions*') ? 'bg-primary-container text-on-primary-container' : '' }}">Roles & Permissions</a>
-            <a href="{{ route('tenant.admin.logs') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-surface-container-high text-sm {{ request()->routeIs('tenant.admin.logs*') ? 'bg-primary-container text-on-primary-container' : '' }}">Logs</a>
+            {{-- <a href="{{ route('tenant.admin.users') }}" class="...">Users</a> --}}
+            {{-- <a href="{{ route('tenant.admin.design') }}" class="...">Design</a> --}}
+            {{-- <a href="{{ route('tenant.admin.smtp-settings') }}" class="...">SMTP Settings</a> --}}
+            {{-- <a href="{{ route('tenant.admin.integrations') }}" class="...">Integrations</a> --}}
+            {{-- <a href="{{ route('tenant.admin.roles-permissions') }}" class="...">Roles & Permissions</a> --}}
+            {{-- <a href="{{ route('tenant.admin.logs') }}" class="...">Logs</a> --}}
         @endif
     </nav>
     <div class="p-4 border-t border-surface-container-high">

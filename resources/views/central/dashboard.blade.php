@@ -1,4 +1,6 @@
-<x-layouts.central>
+@extends('layouts.central')
+
+@section('content')
     <div class="space-y-6">
         <div class="rounded-3xl border border-surface-container-high bg-surface-container p-6 shadow-sm">
             <h1 class="text-2xl font-bold">Central Dashboard</h1>
@@ -17,4 +19,4 @@
             </div>
         </div>
     </div>
-</x-layouts.central>
+@endsection

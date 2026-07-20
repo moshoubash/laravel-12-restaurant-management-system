@@ -1,4 +1,6 @@
-<x-layouts.central>
+@extends('layouts.central')
+
+@section('content')
     <div class="space-y-6">
         <div>
             <h1 class="text-2xl font-bold">{{ $tenant->exists ? 'Edit Tenant' : 'Create Tenant' }}</h1>
@@ -75,4 +77,4 @@
             </form>
         </div>
     </div>
-</x-layouts.central>
+@endsection
