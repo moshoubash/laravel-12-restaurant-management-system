@@ -26,6 +26,10 @@ class Dashboard extends Component
             return view('livewire.dashboard')->layout('layouts.cashier');
         }
 
+        if ($user->hasRole('manager')) {
+            return view('livewire.dashboard')->layout('layouts.manager');
+        }
+
         return view('livewire.dashboard')->layout('layouts.app');
     }
 }
