@@ -4,6 +4,7 @@ namespace App\Livewire\Waiter;
 
 use App\Models\Tenant\Order;
 use App\Models\Tenant\OrderItem;
+use App\Support\NotificationHelper;
 use Livewire\Component;
 
 class Orders extends Component
@@ -52,12 +53,14 @@ class Orders extends Component
 
     public function markServed($id)
     {
-        $order = Order::findOrFail($id);
+        $order = Order::with('table')->findOrFail($id);
         if ($order->status === 'ready' || $order->status === 'served') {
             $order->update([
                 'status' => 'served',
                 'served_at' => now(),
             ]);
+
+            NotificationHelper::sendToRole('cashier', 'Order #' . $order->order_number . ' Served', 'Table ' . ($order->table?->table_number ?? 'Takeaway'), 'order', route('tenant.cashier.pos'));
         }
     }
 
@@ -65,9 +68,11 @@ class Orders extends Component
     {
         OrderItem::findOrFail($itemId)->update(['status' => 'served']);
 
-        $order = Order::with('items')->find($orderId);
+        $order = Order::with('items', 'table')->find($orderId);
         if ($order && $order->items->every(fn($i) => $i->status === 'served')) {
             $order->update(['status' => 'served', 'served_at' => now()]);
+
+            NotificationHelper::sendToRole('cashier', 'Order #' . $order->order_number . ' Served', 'Table ' . ($order->table?->table_number ?? 'Takeaway'), 'order', route('tenant.cashier.pos'));
         }
     }
 

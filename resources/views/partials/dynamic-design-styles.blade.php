@@ -58,5 +58,10 @@
         --color-warning: {{ $colors['warning'] ?? '217 119 6' }};
         --color-error: {{ $colors['error'] ?? '220 38 38' }};
         --color-info: {{ $colors['info'] ?? '37 99 235' }};
+        --color-surface-container-lowest: {{ $colors['surface-container-lowest'] ?? '255 255 255' }};
+        --color-surface-container-low: {{ $colors['surface-container-low'] ?? '250 250 249' }};
+        --color-surface-container: {{ $colors['surface-container'] ?? '245 245 244' }};
+        --color-surface-container-high: {{ $colors['surface-container-high'] ?? '231 229 228' }};
+        --color-surface-container-highest: {{ $colors['surface-container-highest'] ?? '214 211 209' }};
     }
 </style>

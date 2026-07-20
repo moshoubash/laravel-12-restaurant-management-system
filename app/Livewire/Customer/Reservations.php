@@ -5,6 +5,7 @@ namespace App\Livewire\Customer;
 use App\Models\Tenant\Branch;
 use App\Models\Tenant\Customer;
 use App\Models\Tenant\Reservation;
+use App\Support\NotificationHelper;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -159,6 +160,14 @@ class Reservations extends Component
             ]);
         }
 
+        NotificationHelper::sendToRole(
+            'manager',
+            'New Online Reservation',
+            $user->name . ' — ' . $this->guestCount . ' guests on ' . $this->reservationDate . ' at ' . $this->reservationTime,
+            'reservation',
+            route('tenant.admin.reservations')
+        );
+
         $this->showBookModal = false;
         session()->flash('success', 'Reservation booked successfully! It is currently pending confirmation.');
     }
@@ -178,6 +187,14 @@ class Reservations extends Component
             'cancelled_at' => now(),
             'cancellation_reason' => 'Cancelled by customer',
         ]);
+
+        NotificationHelper::sendToRole(
+            'manager',
+            'Reservation Cancelled by Customer',
+            $user->name . ' — ' . $reservation->reservation_date . ' at ' . $reservation->reservation_time,
+            'warning',
+            route('tenant.admin.reservations')
+        );
 
         session()->flash('success', 'Reservation has been cancelled.');
     }

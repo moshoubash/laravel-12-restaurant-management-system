@@ -83,8 +83,8 @@
     @if($showDetail && $selectedOrderId)
         @php $order = \App\Models\Tenant\Order::with(['items', 'table', 'user'])->find($selectedOrderId); @endphp
         @if($order)
-            <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" wire:click.self="closeDetail">
-                <div class="w-full max-w-lg rounded-xl bg-surface-container-lowest p-6 shadow-xl max-h-[90vh] overflow-y-auto">
+            <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="closeDetail">
+                <div class="w-full max-w-lg rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl max-h-[90vh] overflow-y-auto">
                     <div class="flex items-start justify-between">
                         <div>
                             <h3 class="text-lg font-bold text-on-surface">Order #{{ $order->order_number }}</h3>

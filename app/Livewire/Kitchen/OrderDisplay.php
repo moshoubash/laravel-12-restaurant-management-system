@@ -3,6 +3,8 @@
 namespace App\Livewire\Kitchen;
 
 use App\Models\Tenant\Order;
+use App\Models\Tenant\User;
+use App\Support\NotificationHelper;
 use Livewire\Component;
 
 class OrderDisplay extends Component
@@ -43,6 +45,17 @@ class OrderDisplay extends Component
     {
         $order = Order::findOrFail($id);
         $order->update(['status' => 'ready', 'ready_at' => now()]);
+
+        $tableNumber = $order->table?->table_number;
+        $title = 'Order #' . $order->order_number . ' Ready';
+        $message = 'Table ' . ($tableNumber ?? 'Takeaway') . ' — ' . $order->items->count() . ' items ready for pickup';
+        NotificationHelper::sendToRole('waiter', $title, $message, 'order', route('tenant.waiter.orders'));
+        if ($order->user_id) {
+            $assignedUser = User::find($order->user_id);
+            if ($assignedUser) {
+                NotificationHelper::send($assignedUser, $title, $message, 'order', route('tenant.waiter.orders'));
+            }
+        }
     }
 
     public function render()

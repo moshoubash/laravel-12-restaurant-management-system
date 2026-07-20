@@ -103,8 +103,8 @@
 
     {{-- Table form modal --}}
     @if($showForm)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" wire:click.self="cancelForm">
-            <div class="w-full max-w-md rounded-xl bg-surface-container-lowest p-6 shadow-xl">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="cancelForm">
+            <div class="w-full max-w-md rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl">
                 <h3 class="text-lg font-bold text-on-surface">{{ $editingTable ? 'Edit' : 'Add' }} Table</h3>
                 <div class="mt-4 grid grid-cols-2 gap-4">
                     <div>
@@ -148,8 +148,8 @@
     {{-- Table detail modal --}}
     @if($showDetail && $selectedTable = $this->selectedTable)
         @php $activeOrder = $selectedTable->orders->first(); @endphp
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" wire:click.self="closeDetail">
-            <div class="w-full max-w-lg rounded-xl bg-surface-container-lowest p-6 shadow-xl max-h-[90vh] overflow-y-auto">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="closeDetail">
+            <div class="w-full max-w-lg rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl max-h-[90vh] overflow-y-auto">
                 <div class="flex items-start justify-between">
                     <div>
                         <h3 class="text-lg font-bold text-on-surface">Table T{{ $selectedTable->table_number }}</h3>

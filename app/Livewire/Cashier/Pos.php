@@ -11,6 +11,7 @@ use App\Models\Tenant\OrderItem;
 use App\Models\Tenant\Payment;
 use App\Models\Tenant\Shift;
 use App\Models\Tenant\Table;
+use App\Support\NotificationHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -254,6 +255,11 @@ class Pos extends Component
         $this->showCheckout = false;
         $this->showSuccess = true;
         $this->clearCart();
+
+        $totalItems = collect($this->cart)->sum('quantity');
+        $tableInfo = $order->table?->table_number ? 'Table ' . $order->table->table_number : 'Takeaway';
+        NotificationHelper::sendToRole('admin', 'Payment Completed — #' . $order->order_number, number_format($this->total, 2) . ' via ' . ucfirst($this->paymentMethod), 'payment', route('tenant.orders'));
+        NotificationHelper::sendToRole('chef', 'New POS Order #' . $order->order_number, $tableInfo . ' — ' . $totalItems . ' items', 'order', route('tenant.kitchen.orders'));
 
         $this->dispatch('payment-completed', orderNumber: $order->order_number);
     }

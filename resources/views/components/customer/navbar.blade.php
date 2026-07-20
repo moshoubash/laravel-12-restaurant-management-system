@@ -1,14 +1,14 @@
-<header class="fixed top-0 left-0 right-0 z-40 bg-surface/95 backdrop-blur-sm border-b border-surface-200">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+<header class="fixed top-0 left-0 right-0 z-40 border-b bg-surface/95 backdrop-blur-sm border-surface-200">
+    <div class="max-w-6xl px-4 mx-auto sm:px-6">
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-on-primary text-xs font-bold">R</div>
+                <div class="flex items-center justify-center w-8 h-8 text-xs font-bold rounded-lg bg-primary text-on-primary">R</div>
                 <span class="text-base font-bold text-surface-900">{{ config('app.name') }}</span>
             </div>
 
             {{-- Desktop Nav --}}
-            <nav class="hidden md:flex items-center gap-1">
-                <a href="{{ route('tenant.public.menu') }}" class="px-4 py-2 text-sm font-medium text-surface-600 hover:text-surface-900 hover:bg-surface-100 rounded-lg transition-colors {{ request()->routeIs('tenant.public.menu') ? 'text-primary bg-primary-50' : '' }}">
+            <nav class="items-center hidden gap-1 md:flex">
+                <a href="{{ route('tenant.customer.menu') }}" class="px-4 py-2 text-sm font-medium text-surface-600 hover:text-surface-900 hover:bg-surface-100 rounded-lg transition-colors {{ request()->routeIs('tenant.menu') ? 'text-primary bg-primary-50' : '' }}">
                     Menu
                 </a>
                 @auth('tenant')
@@ -26,7 +26,7 @@
 
             <div class="flex items-center gap-2">
                 @auth('tenant')
-                    <a href="{{ route('tenant.customer.profile') }}" class="btn-ghost btn-sm hidden md:flex">
+                    <a href="{{ route('tenant.customer.profile') }}" class="hidden btn-ghost btn-sm md:flex">
                         <div class="avatar avatar-sm">
                             <div class="avatar-fallback">{{ substr(auth('tenant')->user()?->name ?? 'U', 0, 2) }}</div>
                         </div>

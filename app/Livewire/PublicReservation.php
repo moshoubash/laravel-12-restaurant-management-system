@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Tenant\Branch;
 use App\Models\Tenant\Reservation;
+use App\Support\NotificationHelper;
 use Livewire\Component;
 
 class PublicReservation extends Component
@@ -134,6 +135,14 @@ class PublicReservation extends Component
                 'is_active' => true,
             ]);
         }
+
+        NotificationHelper::sendToRole(
+            'manager',
+            'New Online Reservation',
+            $this->customerName . ' — ' . $this->guestCount . ' guests on ' . $this->reservationDate . ' at ' . $this->reservationTime,
+            'reservation',
+            route('tenant.admin.reservations')
+        );
 
         $this->isBooked = true;
         $this->successDetails = [

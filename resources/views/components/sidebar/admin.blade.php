@@ -4,7 +4,7 @@
     $isManager = $user && $user->hasAnyRole(['manager', 'owner', 'admin']);
     $currentRoute = request()->route()?->getName() ?? '';
 @endphp
-<aside class="sidebar hidden lg:flex" x-data="{ collapsed: false }" x-on:toggle-sidebar.window="collapsed = !collapsed">
+<aside class="hidden sidebar lg:flex" x-data="{ collapsed: false }" x-on:toggle-sidebar.window="collapsed = !collapsed">
     <div class="sidebar-header">
         <div class="sidebar-brand">
             <div class="sidebar-logo">R</div>
@@ -72,10 +72,10 @@
             <span>Staff</span>
         </a>
 
-        <a href="{{ route('tenant.admin.inventory') }}" class="sidebar-link {{ str_contains($currentRoute, 'admin.inventory') ? 'sidebar-link-active' : '' }}">
+        {{-- <a href="{{ route('tenant.admin.inventory') }}" class="sidebar-link {{ str_contains($currentRoute, 'admin.inventory') ? 'sidebar-link-active' : '' }}">
             <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
             <span>Inventory</span>
-        </a>
+        </a> --}}
 
         <a href="{{ route($isOwnerOrAdmin ? 'tenant.admin.reports' : 'tenant.manager.reports') }}" class="sidebar-link {{ str_contains($currentRoute, 'reports') ? 'sidebar-link-active' : '' }}">
             <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
@@ -100,10 +100,10 @@
                 <span>Recipes</span>
             </a>
 
-            <a href="{{ route('tenant.admin.design') }}" class="sidebar-link {{ str_contains($currentRoute, 'admin.design') ? 'sidebar-link-active' : '' }}">
+            {{-- <a href="{{ route('tenant.admin.design') }}" class="sidebar-link {{ str_contains($currentRoute, 'admin.design') ? 'sidebar-link-active' : '' }}">
                 <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
                 <span>Design</span>
-            </a>
+            </a> --}}
         @endif
     </nav>
 
@@ -119,7 +119,7 @@
         </div>
         <form method="POST" action="{{ route('tenant.logout') }}" class="px-3">
             @csrf
-            <button type="submit" class="sidebar-link w-full text-error hover:bg-error/5">
+            <button type="submit" class="w-full sidebar-link text-error hover:bg-error/5">
                 <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                 <span>Sign Out</span>
             </button>

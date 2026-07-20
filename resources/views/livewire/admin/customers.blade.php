@@ -104,7 +104,7 @@
 
     {{-- Form modal --}}
     @if($showForm)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" wire:click.self="showForm = false">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="showForm = false">
             <div class="w-full max-w-lg rounded-xl bg-surface-container p-6 shadow-xl max-h-[90vh] overflow-y-auto border border-surface-container-high">
                 <h3 class="text-lg font-bold text-on-surface mb-4">{{ $editingCustomer ? 'Edit' : 'Add' }} Customer Profile</h3>
                 
@@ -204,7 +204,7 @@
 
     {{-- History drawer --}}
     @if($showHistory)
-        <div class="fixed inset-0 z-50 flex items-center justify-end bg-black/30" wire:click.self="closeHistory">
+        <div class="fixed inset-0 z-50 flex items-center justify-end bg-black/40 backdrop-blur-sm" wire:click.self="closeHistory">
             <div class="w-full max-w-xl h-full bg-surface-container p-6 shadow-2xl overflow-y-auto border-l border-surface-container-high flex flex-col justify-between">
                 <div>
                     {{-- Drawer Header --}}

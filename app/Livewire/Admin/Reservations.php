@@ -6,6 +6,7 @@ use App\Models\Tenant\Branch;
 use App\Models\Tenant\Customer;
 use App\Models\Tenant\Reservation;
 use App\Models\Tenant\Table;
+use App\Support\NotificationHelper;
 use Livewire\Component;
 
 class Reservations extends Component
@@ -234,11 +235,27 @@ class Reservations extends Component
             }
 
             $res->update($data);
+
+            NotificationHelper::sendToRole(
+                'manager',
+                'Reservation Updated',
+                $res->customer_name . ' — ' . $res->guest_count . ' guests on ' . $res->reservation_date . ' at ' . $res->reservation_time,
+                'reservation',
+                route('tenant.admin.reservations')
+            );
         } else {
             if ($this->status === 'seated' && $this->tableId) {
                 Table::findOrFail($this->tableId)->update(['status' => 'occupied']);
             }
-            Reservation::create($data);
+            $res = Reservation::create($data);
+
+            NotificationHelper::sendToRole(
+                'manager',
+                'New Reservation',
+                $this->customerName . ' — ' . $this->guestCount . ' guests on ' . $this->reservationDate . ' at ' . $this->reservationTime,
+                'reservation',
+                route('tenant.admin.reservations')
+            );
         }
 
         $this->showForm = false;
@@ -252,6 +269,15 @@ class Reservations extends Component
             'status' => 'confirmed',
             'confirmed_at' => now(),
         ]);
+
+        NotificationHelper::sendToRole(
+            'manager',
+            'Reservation Confirmed',
+            $res->customer_name . ' — ' . $res->guest_count . ' guests on ' . $res->reservation_date . ' at ' . $res->reservation_time,
+            'reservation',
+            route('tenant.admin.reservations')
+        );
+
         session()->flash('success', 'Reservation has been confirmed.');
     }
 
@@ -264,6 +290,15 @@ class Reservations extends Component
         if ($res->table_id) {
             Table::findOrFail($res->table_id)->update(['status' => 'occupied']);
         }
+
+        NotificationHelper::sendToRole(
+            'waiter',
+            'Guests Seated',
+            $res->customer_name . ' — Table ' . ($res->table?->table_number ?? 'N/A') . ' — ' . $res->guest_count . ' guests',
+            'reservation',
+            route('tenant.waiter.orders')
+        );
+
         session()->flash('success', 'Guests checked-in and seated.');
     }
 
@@ -290,6 +325,14 @@ class Reservations extends Component
         if ($res->table_id) {
             Table::findOrFail($res->table_id)->update(['status' => 'available']);
         }
+
+        NotificationHelper::sendToRole(
+            'manager',
+            'Reservation Cancelled',
+            $res->customer_name . ' — Reason: ' . $this->cancellationReason,
+            'warning',
+            route('tenant.admin.reservations')
+        );
 
         $this->showCancelModal = false;
         session()->flash('success', 'Reservation has been cancelled.');

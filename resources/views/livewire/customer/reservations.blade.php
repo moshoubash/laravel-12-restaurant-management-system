@@ -94,7 +94,7 @@
 
     {{-- Book Modal --}}
     @if($showBookModal)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40" wire:click.self="showBookModal = false">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="showBookModal = false">
             <div class="w-full max-w-lg rounded-xl bg-surface-container p-6 shadow-xl max-h-[90vh] overflow-y-auto border border-surface-container-high">
                 <div class="flex items-center justify-between border-b border-surface-container-high pb-3 mb-4">
                     <h3 class="text-lg font-bold text-on-surface">Book a Table</h3>

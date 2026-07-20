@@ -126,8 +126,8 @@
 
     {{-- Checkout modal --}}
     @if($showCheckout)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" wire:click.self="showCheckout = false">
-            <div class="w-full max-w-md rounded-xl bg-surface-container-lowest p-6 shadow-xl">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="showCheckout = false">
+            <div class="w-full max-w-md rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl">
                 <h3 class="text-lg font-bold text-on-surface">Complete Payment</h3>
                 <div class="mt-4 space-y-4">
                     <div class="rounded-lg bg-surface-container p-4 space-y-1 text-sm">
@@ -185,8 +185,8 @@
 
     {{-- Success modal --}}
     @if($showSuccess)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-            <div class="w-full max-w-sm rounded-xl bg-surface-container-lowest p-8 text-center shadow-xl">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+            <div class="w-full max-w-sm rounded-xl bg-surface-container border border-surface-container-high p-8 text-center shadow-xl">
                 <div class="text-5xl mb-4">✅</div>
                 <h3 class="text-xl font-bold text-on-surface">Payment Complete!</h3>
                 <p class="mt-2 text-secondary">Order #{{ $lastOrderNumber }}</p>

@@ -122,8 +122,8 @@
 
     {{-- Category modal --}}
     @if($showCategoryForm)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" wire:click.self="showCategoryForm = false">
-            <div class="w-full max-w-md rounded-xl bg-surface-container-lowest p-6 shadow-xl">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="showCategoryForm = false">
+            <div class="w-full max-w-md rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl">
                 <h3 class="text-lg font-bold text-on-surface">{{ $editingCategory ? 'Edit' : 'Add' }} Category</h3>
                 <div class="mt-4 space-y-4">
                     <div>
@@ -150,8 +150,8 @@
 
     {{-- Item modal --}}
     @if($showItemForm)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" wire:click.self="showItemForm = false">
-            <div class="w-full max-w-lg rounded-xl bg-surface-container-lowest p-6 shadow-xl max-h-[90vh] overflow-y-auto">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="showItemForm = false">
+            <div class="w-full max-w-lg rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl max-h-[90vh] overflow-y-auto">
                 <h3 class="text-lg font-bold text-on-surface">{{ $editingItem ? 'Edit' : 'Add' }} Menu Item</h3>
                 <div class="mt-4 grid grid-cols-2 gap-4">
                     <div class="col-span-2">
@@ -210,8 +210,8 @@
 
     {{-- Modifier modal --}}
     @if($showModifierForm)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" wire:click.self="showModifierForm = false">
-            <div class="w-full max-w-md rounded-xl bg-surface-container-lowest p-6 shadow-xl">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="showModifierForm = false">
+            <div class="w-full max-w-md rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl">
                 <h3 class="text-lg font-bold text-on-surface">{{ $editingModifier ? 'Edit' : 'Add' }} Modifier Group</h3>
                 <div class="mt-4 space-y-4">
                     <div>

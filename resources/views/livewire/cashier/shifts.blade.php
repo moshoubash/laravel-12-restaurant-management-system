@@ -73,8 +73,8 @@
 
     {{-- Open shift form --}}
     @if($showOpenForm)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" wire:click.self="$set('showOpenForm', false)">
-            <div class="w-full max-w-md rounded-xl bg-surface-container-lowest p-6 shadow-xl">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="$set('showOpenForm', false)">
+            <div class="w-full max-w-md rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl">
                 <h3 class="text-lg font-bold text-on-surface mb-4">Open New Shift</h3>
                 <form wire:submit="openShift" class="space-y-4">
                     <div>
@@ -98,8 +98,8 @@
 
     {{-- Close shift form --}}
     @if($showCloseForm)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" wire:click.self="$set('showCloseForm', false)">
-            <div class="w-full max-w-md rounded-xl bg-surface-container-lowest p-6 shadow-xl">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="$set('showCloseForm', false)">
+            <div class="w-full max-w-md rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl">
                 <h3 class="text-lg font-bold text-on-surface mb-4">Close Shift</h3>
                 @php $shift = \App\Models\Tenant\Shift::find($editingShiftId); @endphp
                 @if($shift)
@@ -141,8 +141,8 @@
     @if($showDetail && $editingShiftId)
         @php $shift = \App\Models\Tenant\Shift::with('orders.items')->find($editingShiftId); @endphp
         @if($shift)
-            <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" wire:click.self="closeDetail">
-                <div class="w-full max-w-lg rounded-xl bg-surface-container-lowest p-6 shadow-xl max-h-[90vh] overflow-y-auto">
+            <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="closeDetail">
+                <div class="w-full max-w-lg rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl max-h-[90vh] overflow-y-auto">
                     <div class="flex items-center justify-between">
                         <h3 class="text-lg font-bold text-on-surface">{{ $shift->name }}</h3>
                         <span @class([

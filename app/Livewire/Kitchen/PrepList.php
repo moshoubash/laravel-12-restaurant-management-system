@@ -3,6 +3,7 @@
 namespace App\Livewire\Kitchen;
 
 use App\Models\Tenant\Order;
+use App\Support\NotificationHelper;
 use Livewire\Component;
 
 class PrepList extends Component
@@ -17,12 +18,25 @@ class PrepList extends Component
 
     public function markPreparing($id)
     {
-        Order::findOrFail($id)->update(['status' => 'preparing', 'preparing_at' => now()]);
+        $order = Order::with('table')->findOrFail($id);
+        $order->update(['status' => 'preparing', 'preparing_at' => now()]);
+
+        $totalItems = $order->items->sum('quantity');
+        NotificationHelper::sendToRole('admin', 'Order #' . $order->order_number . ' In Preparation', $totalItems . ' items', 'order');
     }
 
     public function markReady($id)
     {
-        Order::findOrFail($id)->update(['status' => 'ready', 'ready_at' => now()]);
+        $order = Order::with('table')->findOrFail($id);
+        $order->update(['status' => 'ready', 'ready_at' => now()]);
+
+        $title = 'Order #' . $order->order_number . ' Ready';
+        $message = 'Table ' . ($order->table?->table_number ?? 'Takeaway');
+        NotificationHelper::sendToRole('waiter', $title, $message, 'order', route('tenant.waiter.orders'));
+
+        if ($assignedUser = $order->user) {
+            NotificationHelper::send($assignedUser, $title, $message, 'order', route('tenant.waiter.orders'));
+        }
     }
 
     public function render()

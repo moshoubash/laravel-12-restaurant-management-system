@@ -47,8 +47,8 @@
     </div>
 
     @if($showForm)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" wire:click.self="cancelForm">
-            <div class="w-full max-w-md rounded-xl bg-surface-container-lowest p-6 shadow-xl">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="cancelForm">
+            <div class="w-full max-w-md rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl">
                 <h3 class="text-lg font-bold text-on-surface mb-4">{{ $editingSupplier ? 'Edit' : 'Add' }} Supplier</h3>
                 <form wire:submit="save" class="space-y-4">
                     <div>

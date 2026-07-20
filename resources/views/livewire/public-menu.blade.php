@@ -124,8 +124,8 @@
 
     {{-- Cart Drawer / Checkout --}}
     @if($showCheckout)
-        <div class="fixed inset-0 z-50 bg-black/50 flex justify-end" wire:click.self="$set('showCheckout', false)">
-            <div class="w-full max-w-lg bg-surface-container-lowest h-full overflow-y-auto" wire:click.stop>
+        <div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex justify-end" wire:click.self="$set('showCheckout', false)">
+            <div class="w-full max-w-lg bg-surface-container border border-surface-container-high h-full overflow-y-auto" wire:click.stop>
                 <div class="sticky top-0 bg-surface-container-lowest border-b border-surface-container-high p-4 flex items-center justify-between">
                     <h2 class="text-lg font-bold">
                         @if(!$orderNumber)
@@ -236,8 +236,8 @@
 
     {{-- Modifier Picker Modal --}}
     @if($showModifierPicker)
-        <div class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4" wire:click.self="cancelModifiers">
-            <div class="w-full max-w-md bg-surface-container-lowest rounded-xl p-6" wire:click.stop>
+        <div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4" wire:click.self="cancelModifiers">
+            <div class="w-full max-w-md bg-surface-container border border-surface-container-high rounded-xl p-6" wire:click.stop>
                 <h3 class="text-lg font-bold mb-4">Customize Your Item</h3>
                 @foreach($modifierGroups as $group)
                     <div class="mb-4">

@@ -66,8 +66,8 @@
 
     {{-- Staff form modal --}}
     @if($showForm)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" wire:click.self="cancelForm">
-            <div class="w-full max-w-lg rounded-xl bg-surface-container-lowest p-6 shadow-xl max-h-[90vh] overflow-y-auto">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="cancelForm">
+            <div class="w-full max-w-lg rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl max-h-[90vh] overflow-y-auto">
                 <h3 class="text-lg font-bold text-on-surface">{{ $editingUser ? 'Edit' : 'Add' }} Staff</h3>
                 <div class="mt-4 grid grid-cols-2 gap-4">
                     <div class="col-span-2">

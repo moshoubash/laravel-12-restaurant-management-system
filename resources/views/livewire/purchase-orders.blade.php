@@ -65,8 +65,8 @@
 
     {{-- Form modal --}}
     @if($showForm)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" wire:click.self="cancelForm">
-            <div class="w-full max-w-2xl rounded-xl bg-surface-container-lowest p-6 shadow-xl max-h-[90vh] overflow-y-auto">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="cancelForm">
+            <div class="w-full max-w-2xl rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl max-h-[90vh] overflow-y-auto">
                 <h3 class="text-lg font-bold text-on-surface mb-4">{{ $editingOrder ? 'Edit' : 'New' }} Purchase Order</h3>
                 <form wire:submit="save" class="space-y-4">
                     <div class="grid grid-cols-2 gap-3">

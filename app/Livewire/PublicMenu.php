@@ -9,6 +9,7 @@ use App\Models\Tenant\MenuItemModifier;
 use App\Models\Tenant\Order;
 use App\Models\Tenant\OrderItem;
 use App\Models\Tenant\Table;
+use App\Support\NotificationHelper;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -246,6 +247,9 @@ class PublicMenu extends Component
                 logger()->warning('Failed to send order confirmation email: ' . $e->getMessage());
             }
         }
+
+        $tableInfo = $order->table?->table_number ? 'Table ' . $order->table->table_number : 'Takeaway';
+        NotificationHelper::sendToRole('chef', 'New Online Order #' . $order->order_number, $tableInfo . ' — ' . count($this->cart) . ' items', 'order', route('tenant.kitchen.orders'));
 
         $this->dispatch('confirmed-order');
     }

@@ -47,6 +47,11 @@ export default {
                     900: 'rgb(var(--color-surface-900) / <alpha-value>)',
                     DEFAULT: 'rgb(var(--color-surface-50) / <alpha-value>)',
                 },
+                'surface-container-lowest': 'rgb(var(--color-surface-50) / <alpha-value>)',
+                'surface-container-low': 'rgb(250 250 249 / <alpha-value>)',
+                'surface-container': 'rgb(var(--color-surface-100) / <alpha-value>)',
+                'surface-container-high': 'rgb(var(--color-surface-200) / <alpha-value>)',
+                'surface-container-highest': 'rgb(var(--color-surface-300) / <alpha-value>)',
                 success: {
                     DEFAULT: 'rgb(var(--color-success) / <alpha-value>)',
                 },
