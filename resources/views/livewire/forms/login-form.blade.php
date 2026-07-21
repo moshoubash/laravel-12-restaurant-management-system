@@ -1,6 +1,6 @@
 <div>
     <h1 class="text-2xl font-bold text-center">Sign In</h1>
-    <form wire:submit="login" class="mt-6 space-y-4">
+    <form wire:submit="login" class="mt-6 flex flex-col gap-4">
         <div>
             <label class="block text-sm font-medium">Email</label>
             <input type="email" wire:model="email" class="mt-1 block w-full border border-surface-container-high rounded px-3 py-2">

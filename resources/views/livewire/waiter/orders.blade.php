@@ -1,4 +1,4 @@
-<div class="space-y-4">
+<div class="flex flex-col gap-4">
     {{-- Header --}}
     <div class="flex items-center justify-between gap-4">
         <h2 class="text-lg font-bold text-on-surface">Orders</h2>

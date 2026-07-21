@@ -109,7 +109,7 @@
                         <p class="text-xs text-surface-500 mt-0.5">Current distribution</p>
                     </div>
                 </div>
-                <div class="space-y-4">
+                <div class="flex flex-col gap-4">
                     @forelse (['pending' => 'Pending', 'confirmed' => 'Confirmed', 'preparing' => 'Preparing', 'ready' => 'Ready', 'served' => 'Served', 'completed' => 'Completed'] as $status => $label)
                         @php $count = $ordersByStatus[$status] ?? 0; @endphp
                         @if ($count > 0)
@@ -550,7 +550,7 @@
 
             <div class="card">
                 <h3 class="mb-4 text-base font-semibold text-surface-900">Payment Methods</h3>
-                <div class="space-y-4">
+                <div class="flex flex-col gap-4">
                     @forelse ($paymentMethodBreakdown ?? [] as $pm)
                         <div class="flex items-center justify-between p-3 rounded-lg bg-surface-100/50">
                             <span class="text-sm font-medium capitalize text-surface-700">{{ $pm->method ?? 'Unknown' }}</span>

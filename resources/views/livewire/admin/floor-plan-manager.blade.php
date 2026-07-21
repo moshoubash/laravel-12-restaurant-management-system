@@ -1,4 +1,4 @@
-<div class="space-y-6">
+<div class="flex flex-col gap-6">
     <div>
         <h1 class="text-2xl font-bold">Floor Plan Manager</h1>
         <p class="mt-2 text-sm text-secondary">Manage restaurant sections and table layout on the floor plan.</p>
@@ -97,7 +97,7 @@
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="closeSectionForm">
             <div class="w-full max-w-md rounded-3xl border border-surface-container-high bg-surface-container p-6 shadow-lg">
                 <h2 class="text-lg font-semibold">{{ $editingSection ? 'Edit Section' : 'Add Section' }}</h2>
-                <form wire:submit="saveSection" class="mt-4 space-y-4">
+                <form wire:submit="saveSection" class="mt-4 flex flex-col gap-4">
                     <div>
                         <label class="block text-sm font-medium">Section Name</label>
                         <input type="text" wire:model="sectionName" class="mt-1 block w-full rounded border border-surface-container-high bg-surface-container-lowest px-3 py-2 text-on-surface focus:border-primary focus:ring-primary" required>
@@ -126,7 +126,7 @@
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="closeTableForm">
             <div class="w-full max-w-md rounded-3xl border border-surface-container-high bg-surface-container p-6 shadow-lg">
                 <h2 class="text-lg font-semibold">{{ $editingTable ? 'Edit Table' : 'Add Table' }}</h2>
-                <form wire:submit="saveTable" class="mt-4 space-y-4">
+                <form wire:submit="saveTable" class="mt-4 flex flex-col gap-4">
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium">Table #</label>

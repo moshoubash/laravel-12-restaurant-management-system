@@ -1,4 +1,4 @@
-<div class="space-y-6">
+<div class="flex flex-col gap-6">
     {{-- Toolbar --}}
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <h2 class="text-lg font-bold text-on-surface">Branch Reports</h2>
@@ -142,7 +142,7 @@
         </div>
 
         {{-- Order Breakdowns --}}
-        <div class="space-y-4">
+        <div class="flex flex-col gap-4">
             {{-- By Type --}}
             <div class="rounded-xl border border-surface-container-high bg-surface-container-lowest p-5">
                 <h3 class="text-sm font-bold text-on-surface mb-3">Orders by Type</h3>

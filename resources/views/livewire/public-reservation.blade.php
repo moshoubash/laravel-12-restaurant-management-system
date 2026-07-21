@@ -14,7 +14,7 @@
         <div class="p-8">
             @if($isBooked)
                 {{-- Success Screen --}}
-                <div class="py-8 space-y-6 text-center">
+                <div class="py-8 flex flex-col gap-6 text-center">
                     <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-success/20 text-success">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
@@ -58,7 +58,7 @@
                 </div>
             @else
                 {{-- Form Screen --}}
-                <form wire:submit.prevent="book" class="space-y-6">
+                <form wire:submit.prevent="book" class="flex flex-col gap-6">
                     @if (session()->has('error'))
                         <div class="p-4 text-sm border rounded-lg bg-error/10 border-error/20 text-error">
                             {{ session('error') }}
@@ -116,7 +116,7 @@
                         </span>
                     </div>
 
-                    <div class="pt-6 space-y-6 border-t border-surface-container-high">
+                    <div class="pt-6 flex flex-col gap-6 border-t border-surface-container-high">
                         <h3 class="text-base font-bold text-on-surface">Contact Information</h3>
 
                         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">

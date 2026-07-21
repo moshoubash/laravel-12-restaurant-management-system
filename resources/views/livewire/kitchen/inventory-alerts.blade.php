@@ -1,4 +1,4 @@
-<div class="p-4 space-y-6">
+<div class="p-4 flex flex-col gap-6">
     {{-- Out of stock --}}
     <div>
         <h2 class="text-lg font-bold text-error mb-3">Out of Stock</h2>

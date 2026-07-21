@@ -1,4 +1,4 @@
-<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+<div class="max-w-7xl mx-auto px-4 py-8 flex flex-col gap-6">
     {{-- Header --}}
     <div class="flex items-center justify-between border-b border-surface-container-high pb-4">
         <div>
@@ -20,7 +20,7 @@
     {{-- Reservations List --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         @forelse($this->reservations as $res)
-            <div wire:key="res-{{ $res->id }}" class="border border-surface-container-high bg-surface-container p-6 rounded-xl space-y-4">
+            <div wire:key="res-{{ $res->id }}" class="border border-surface-container-high bg-surface-container p-6 rounded-xl flex flex-col gap-4">
                 <div class="flex items-start justify-between">
                     <div>
                         <h3 class="font-bold text-lg text-on-surface">{{ $res->branch->name }}</h3>
@@ -103,7 +103,7 @@
                     </button>
                 </div>
 
-                <form wire:submit.prevent="book" class="space-y-4">
+                <form wire:submit.prevent="book" class="flex flex-col gap-4">
                     @if (session()->has('error'))
                         <div class="p-3 bg-error/10 border border-error/20 rounded-lg text-xs text-error">
                             {{ session('error') }}

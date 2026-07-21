@@ -1,4 +1,4 @@
-<div class="space-y-4">
+<div class="flex flex-col gap-4">
     {{-- Toolbar / Filters --}}
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div class="flex flex-wrap items-center gap-3">
@@ -108,7 +108,7 @@
             <div class="w-full max-w-lg rounded-xl bg-surface-container p-6 shadow-xl max-h-[90vh] overflow-y-auto border border-surface-container-high">
                 <h3 class="text-lg font-bold text-on-surface mb-4">{{ $editingCustomer ? 'Edit' : 'Add' }} Customer Profile</h3>
                 
-                <form wire:submit.prevent="save" class="space-y-4">
+                <form wire:submit.prevent="save" class="flex flex-col gap-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {{-- Name --}}
                         <div class="md:col-span-2">
@@ -167,7 +167,7 @@
                     </div>
 
                     {{-- Tags section --}}
-                    <div class="border-t border-surface-container-high pt-4 space-y-4">
+                    <div class="border-t border-surface-container-high pt-4 flex flex-col gap-4">
                         <div>
                             <label class="block text-sm font-semibold text-on-surface">Allergies <span class="text-xs text-secondary font-normal">(Comma-separated list)</span></label>
                             <input type="text" wire:model="preferencesInput" placeholder="Nuts, Gluten, Dairy" class="mt-1 block w-full rounded border border-surface-container-high bg-surface-container-lowest px-3 py-2 text-on-surface focus:outline-none">
@@ -235,7 +235,7 @@
                     </div>
 
                     {{-- Sections: Reservations & Orders --}}
-                    <div class="space-y-6">
+                    <div class="flex flex-col gap-6">
                         {{-- Reservations section --}}
                         <div class="space-y-3">
                             <h4 class="font-bold text-sm text-on-surface border-b border-surface-container-high pb-1.5 flex items-center justify-between">

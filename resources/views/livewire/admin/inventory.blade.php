@@ -1,4 +1,4 @@
-<div class="space-y-6">
+<div class="flex flex-col gap-6">
     {{-- Header --}}
     <div class="section-header">
         <div>
@@ -111,7 +111,7 @@
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="cancelForm">
             <div class="w-full max-w-lg rounded-xl bg-surface-container p-6 shadow-xl border border-surface-container-high max-h-[90vh] overflow-y-auto">
                 <h3 class="text-lg font-bold text-on-surface">{{ $editingItem ? 'Edit' : 'Add' }} Inventory Item</h3>
-                <form wire:submit.prevent="save" class="mt-4 space-y-4">
+                <form wire:submit.prevent="save" class="mt-4 flex flex-col gap-4">
                     <div class="grid grid-cols-2 gap-4">
                         <div class="col-span-2">
                             <label class="input-label">Item Name</label>
@@ -202,7 +202,7 @@
             <div class="w-full max-w-sm rounded-xl bg-surface-container p-6 shadow-xl border border-surface-container-high">
                 <h3 class="text-lg font-bold text-on-surface">Adjust Stock</h3>
                 <p class="text-sm text-secondary mt-1">{{ InventoryItem::find($adjustingItem)?->name }}</p>
-                <form wire:submit.prevent="saveAdjust" class="mt-4 space-y-4">
+                <form wire:submit.prevent="saveAdjust" class="mt-4 flex flex-col gap-4">
                     <div>
                         <label class="input-label">Quantity Change</label>
                         <input wire:model="adjustQuantity" type="number" step="0.01" class="input" placeholder="Use positive to add, negative to subtract">

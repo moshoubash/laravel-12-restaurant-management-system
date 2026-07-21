@@ -125,7 +125,7 @@
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="cancelCategoryForm">
             <div class="w-full max-w-md rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl">
                 <h3 class="text-lg font-bold text-on-surface">{{ $editingCategory ? 'Edit' : 'Add' }} Category</h3>
-                <div class="mt-4 space-y-4">
+                <div class="mt-4 flex flex-col gap-4">
                     <div>
                         <label class="block text-sm font-medium text-on-surface">Name</label>
                         <input wire:model="categoryName" class="mt-1 block w-full rounded border border-surface-container-high bg-surface-container-lowest px-3 py-2 text-on-surface focus:border-primary focus:ring-primary">
@@ -213,7 +213,7 @@
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="cancelModifierForm">
             <div class="w-full max-w-md rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl">
                 <h3 class="text-lg font-bold text-on-surface">{{ $editingModifier ? 'Edit' : 'Add' }} Modifier Group</h3>
-                <div class="mt-4 space-y-4">
+                <div class="mt-4 flex flex-col gap-4">
                     <div>
                         <label class="block text-sm font-medium text-on-surface">Group Name</label>
                         <input wire:model="modifierName" placeholder="e.g. Size, Extra Toppings" class="mt-1 block w-full rounded border border-surface-container-high bg-surface-container-lowest px-3 py-2 text-on-surface focus:border-primary focus:ring-primary">

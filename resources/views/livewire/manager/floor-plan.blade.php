@@ -1,4 +1,4 @@
-<div class="space-y-6">
+<div class="flex flex-col gap-6">
     <div>
         <h1 class="text-2xl font-bold">Floor Plan View</h1>
         <p class="mt-2 text-sm text-secondary">View and manage table status in real time. Click a table for details.</p>

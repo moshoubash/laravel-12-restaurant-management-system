@@ -129,7 +129,7 @@
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="cancelCheckout">
             <div class="w-full max-w-md rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl">
                 <h3 class="text-lg font-bold text-on-surface">Complete Payment</h3>
-                <div class="mt-4 space-y-4">
+                <div class="mt-4 flex flex-col gap-4">
                     <div class="rounded-lg bg-surface-container p-4 space-y-1 text-sm">
                         <div class="flex justify-between"><span>Subtotal</span><span>${{ number_format($this->subtotal, 2) }}</span></div>
                         <div class="flex justify-between"><span>Tax</span><span>${{ number_format($this->tax, 2) }}</span></div>

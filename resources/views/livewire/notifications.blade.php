@@ -1,4 +1,4 @@
-<div class="space-y-6" wire:poll.30s>
+<div class="flex flex-col gap-6" wire:poll.30s>
     <div class="section-header">
         <div>
             <h1 class="section-title">Notifications</h1>

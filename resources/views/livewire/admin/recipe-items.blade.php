@@ -1,4 +1,4 @@
-<div class="space-y-4">
+<div class="flex flex-col gap-4">
     <h2 class="text-lg font-bold text-on-surface">Recipes</h2>
 
     <div class="flex gap-3">

@@ -1,7 +1,7 @@
 @extends('layouts.central')
 
 @section('content')
-    <div class="space-y-6">
+    <div class="flex flex-col gap-6">
         <div class="rounded-3xl border border-surface-container-high bg-surface-container p-6 shadow-sm">
             <h1 class="text-2xl font-bold">Central Dashboard</h1>
             <p class="mt-2 text-sm text-secondary">Manage tenants and system settings from one place.</p>

@@ -1,7 +1,7 @@
 @extends('layouts.central')
 
 @section('content')
-    <div class="space-y-6">
+    <div class="flex flex-col gap-6">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
                 <h1 class="text-2xl font-bold">Tenants</h1>

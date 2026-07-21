@@ -1,11 +1,11 @@
 <x-guest-layout>
-    <div class="space-y-6">
+    <div class="flex flex-col gap-6">
         <div class="text-center">
             <h1 class="text-2xl font-bold text-primary">{{ config('app.name') }}</h1>
             <p class="mt-1 text-sm text-secondary">Create Account</p>
         </div>
 
-        <form method="POST" action="{{ route('tenant.register') }}" class="space-y-4">
+        <form method="POST" action="{{ route('tenant.register') }}" class="flex flex-col gap-4">
             @csrf
             <div>
                 <label for="name" class="block text-sm font-medium text-on-surface">Name</label>

@@ -1,4 +1,4 @@
-<div class="space-y-4">
+<div class="flex flex-col gap-4">
     {{-- Toolbar / Filters --}}
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div class="flex flex-wrap items-center gap-3">
@@ -127,7 +127,7 @@
             <div class="w-full max-w-2xl rounded-xl bg-surface-container p-6 shadow-xl max-h-[90vh] overflow-y-auto border border-surface-container-high">
                 <h3 class="text-lg font-bold text-on-surface mb-4">{{ $editingReservation ? 'Edit' : 'Add' }} Reservation</h3>
                 
-                <form wire:submit.prevent="save" class="space-y-4">
+                <form wire:submit.prevent="save" class="flex flex-col gap-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {{-- Branch --}}
                         <div>
@@ -211,7 +211,7 @@
                     </div>
 
                     {{-- Customer Details section --}}
-                    <div class="border-t border-surface-container-high pt-4 space-y-4">
+                    <div class="border-t border-surface-container-high pt-4 flex flex-col gap-4">
                         <h4 class="font-bold text-sm text-on-surface">Customer Contact Information</h4>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -270,7 +270,7 @@
             <div class="w-full max-w-md rounded-xl bg-surface-container p-6 shadow-xl border border-surface-container-high">
                 <h3 class="text-lg font-bold text-on-surface mb-3">Cancel Reservation</h3>
                 
-                <form wire:submit.prevent="cancelReservation" class="space-y-4">
+                <form wire:submit.prevent="cancelReservation" class="flex flex-col gap-4">
                     <div>
                         <label class="block text-sm font-semibold text-on-surface mb-2">Reason for Cancellation</label>
                         <input type="text" wire:model="cancellationReason" placeholder="Customer called, fully booked overlap, etc." class="block w-full rounded border border-surface-container-high bg-surface-container-lowest px-3 py-2 text-on-surface focus:outline-none focus:ring-primary focus:border-primary">

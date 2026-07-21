@@ -1,4 +1,4 @@
-<div class="space-y-4">
+<div class="flex flex-col gap-4">
     <div class="flex items-center justify-between">
         <h2 class="text-lg font-bold text-on-surface">Purchase Orders</h2>
         <button wire:click="openForm" class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:bg-primary/90">+ New Order</button>
@@ -68,7 +68,7 @@
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="cancelForm">
             <div class="w-full max-w-2xl rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl max-h-[90vh] overflow-y-auto">
                 <h3 class="text-lg font-bold text-on-surface mb-4">{{ $editingOrder ? 'Edit' : 'New' }} Purchase Order</h3>
-                <form wire:submit="save" class="space-y-4">
+                <form wire:submit="save" class="flex flex-col gap-4">
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="block text-sm font-medium text-on-surface mb-1">Supplier</label>

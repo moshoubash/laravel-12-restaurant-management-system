@@ -1,4 +1,4 @@
-<div class="space-y-4">
+<div class="flex flex-col gap-4">
     <div class="flex items-center justify-between">
         <h2 class="text-lg font-bold text-on-surface">Suppliers</h2>
         <button wire:click="openForm" class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:bg-primary/90">+ Add Supplier</button>
@@ -50,7 +50,7 @@
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="cancelForm">
             <div class="w-full max-w-md rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl">
                 <h3 class="text-lg font-bold text-on-surface mb-4">{{ $editingSupplier ? 'Edit' : 'Add' }} Supplier</h3>
-                <form wire:submit="save" class="space-y-4">
+                <form wire:submit="save" class="flex flex-col gap-4">
                     <div>
                         <label class="block text-sm font-medium text-on-surface mb-1">Name *</label>
                         <input wire:model="name" class="w-full rounded-lg border border-surface-container-high bg-surface-container-lowest px-3 py-2 text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">

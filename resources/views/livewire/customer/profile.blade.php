@@ -22,7 +22,7 @@
                 <button wire:click="openEdit" class="px-4 py-2 text-sm font-medium text-primary border border-primary rounded-lg hover:bg-primary/5 transition">Edit</button>
             </div>
         @else
-            <form wire:submit="save" class="space-y-4 max-w-md">
+            <form wire:submit="save" class="flex flex-col gap-4 max-w-md">
                 <div>
                     <label class="block text-sm font-medium text-on-surface mb-1">Name</label>
                     <input wire:model="name" class="w-full rounded-lg border border-surface-container-high bg-surface-container-lowest px-3 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:outline-none">

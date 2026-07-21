@@ -1,4 +1,4 @@
-<div class="space-y-6">
+<div class="flex flex-col gap-6">
     {{-- Header --}}
     <div class="flex items-center justify-between">
         <h2 class="text-lg font-bold text-on-surface">My Shifts</h2>
@@ -76,7 +76,7 @@
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="cancelOpenForm">
             <div class="w-full max-w-md rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl">
                 <h3 class="text-lg font-bold text-on-surface mb-4">Open New Shift</h3>
-                <form wire:submit="openShift" class="space-y-4">
+                <form wire:submit="openShift" class="flex flex-col gap-4">
                     <div>
                         <label class="block text-sm font-medium text-on-surface mb-1">Shift Name</label>
                         <input wire:model="shiftName" placeholder="e.g. Morning Shift" class="w-full rounded-lg border border-surface-container-high bg-surface-container-lowest px-3 py-2 text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
@@ -117,7 +117,7 @@
                             <span class="font-medium">${{ number_format($shift->other_total, 2) }}</span>
                         </div>
                     </div>
-                    <form wire:submit="closeShift" class="space-y-4">
+                    <form wire:submit="closeShift" class="flex flex-col gap-4">
                         <div>
                             <label class="block text-sm font-medium text-on-surface mb-1">Actual Cash in Drawer ($)</label>
                             <input wire:model="actualCash" type="number" step="0.01" min="0" class="w-full rounded-lg border border-surface-container-high bg-surface-container-lowest px-3 py-2 text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
