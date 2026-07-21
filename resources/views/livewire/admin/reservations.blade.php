@@ -123,7 +123,7 @@
 
     {{-- Form modal --}}
     @if($showForm)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="showForm = false">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="cancelForm">
             <div class="w-full max-w-2xl rounded-xl bg-surface-container p-6 shadow-xl max-h-[90vh] overflow-y-auto border border-surface-container-high">
                 <h3 class="text-lg font-bold text-on-surface mb-4">{{ $editingReservation ? 'Edit' : 'Add' }} Reservation</h3>
                 
@@ -251,8 +251,8 @@
                     </div>
 
                     {{-- Actions --}}
-                    <div class="mt-6 flex justify-end gap-3 pt-3 border-t border-surface-container-high">
-                        <button type="button" wire:click="showForm = false" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">
+                    <div class="flex justify-end gap-3 pt-3 border-t border-surface-container-high">
+                        <button type="button" wire:click="cancelForm" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">
                             Cancel
                         </button>
                         <button type="submit" class="rounded-lg bg-primary px-5 py-2 text-sm font-bold text-on-primary hover:bg-primary-container">
@@ -266,7 +266,7 @@
 
     {{-- Cancellation modal --}}
     @if($showCancelModal)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="showCancelModal = false">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="closeCancelModal">
             <div class="w-full max-w-md rounded-xl bg-surface-container p-6 shadow-xl border border-surface-container-high">
                 <h3 class="text-lg font-bold text-on-surface mb-3">Cancel Reservation</h3>
                 
@@ -278,7 +278,7 @@
                     </div>
 
                     <div class="flex justify-end gap-3 pt-3 border-t border-surface-container-high">
-                        <button type="button" wire:click="showCancelModal = false" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">
+                        <button type="button" wire:click="closeCancelModal" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">
                             Cancel
                         </button>
                         <button type="submit" class="rounded-lg bg-error px-5 py-2 text-sm font-bold text-white hover:bg-error/95">

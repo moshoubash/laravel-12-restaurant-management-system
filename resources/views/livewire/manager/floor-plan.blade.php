@@ -67,7 +67,7 @@
 
     <!-- Table Details Modal -->
     @if($showTableModal && $tableData)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="closeTableModal">
             <div class="w-full max-w-md rounded-3xl border border-surface-container-high bg-surface-container p-6 shadow-lg">
                 <div class="mb-4 flex items-center justify-between">
                     <h2 class="text-lg font-semibold">Table {{ $tableData['table_number'] ?? 'N/A' }}</h2>

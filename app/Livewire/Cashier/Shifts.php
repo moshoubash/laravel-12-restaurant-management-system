@@ -44,6 +44,23 @@ class Shifts extends Component
             ->get();
     }
 
+    public function cancelOpenForm()
+    {
+        $this->resetErrorBag();
+        $this->showOpenForm = false;
+        $this->openingCash = 0;
+        $this->shiftName = '';
+    }
+
+    public function cancelCloseForm()
+    {
+        $this->resetErrorBag();
+        $this->showCloseForm = false;
+        $this->editingShiftId = null;
+        $this->actualCash = 0;
+        $this->closeNotes = '';
+    }
+
     public function openShift()
     {
         $this->validate();

@@ -189,6 +189,27 @@ class Reservations extends Component
         }
     }
 
+    public function cancelForm()
+    {
+        $this->resetErrorBag();
+        $this->showForm = false;
+        $this->editingReservation = null;
+        $this->branchId = '';
+        $this->tableId = '';
+        $this->customerId = '';
+        $this->customerName = '';
+        $this->customerEmail = '';
+        $this->customerPhone = '';
+        $this->guestCount = 2;
+        $this->reservationDate = '';
+        $this->reservationTime = '';
+        $this->duration = 120;
+        $this->status = 'pending';
+        $this->specialRequests = '';
+        $this->notes = '';
+        $this->source = 'manual';
+    }
+
     public function save()
     {
         $this->validate();
@@ -307,6 +328,13 @@ class Reservations extends Component
         $this->cancelReservationId = $id;
         $this->cancellationReason = '';
         $this->showCancelModal = true;
+    }
+
+    public function closeCancelModal()
+    {
+        $this->showCancelModal = false;
+        $this->cancelReservationId = null;
+        $this->cancellationReason = '';
     }
 
     public function cancelReservation()

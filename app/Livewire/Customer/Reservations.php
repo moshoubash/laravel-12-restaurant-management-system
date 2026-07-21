@@ -97,6 +97,13 @@ class Reservations extends Component
         return $times;
     }
 
+    public function cancelBooking()
+    {
+        $this->resetErrorBag();
+        $this->showBookModal = false;
+        $this->specialRequests = '';
+    }
+
     public function openBookModal()
     {
         $this->resetErrorBag();

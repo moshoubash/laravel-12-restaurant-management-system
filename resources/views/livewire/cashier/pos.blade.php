@@ -126,7 +126,7 @@
 
     {{-- Checkout modal --}}
     @if($showCheckout)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="showCheckout = false">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="cancelCheckout">
             <div class="w-full max-w-md rounded-xl bg-surface-container border border-surface-container-high p-6 shadow-xl">
                 <h3 class="text-lg font-bold text-on-surface">Complete Payment</h3>
                 <div class="mt-4 space-y-4">
@@ -174,7 +174,7 @@
                     @endif
                 </div>
                 <div class="mt-6 flex justify-end gap-3">
-                    <button type="button" wire:click="showCheckout = false" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">Cancel</button>
+                    <button type="button" wire:click="cancelCheckout" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition">Cancel</button>
                     <button wire:click="processPayment" class="rounded bg-primary px-6 py-2 text-sm font-bold text-on-primary hover:bg-primary-container">
                         Complete Payment
                     </button>

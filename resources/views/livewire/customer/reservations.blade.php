@@ -94,11 +94,11 @@
 
     {{-- Book Modal --}}
     @if($showBookModal)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="showBookModal = false">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="cancelBooking">
             <div class="w-full max-w-lg rounded-xl bg-surface-container p-6 shadow-xl max-h-[90vh] overflow-y-auto border border-surface-container-high">
                 <div class="flex items-center justify-between border-b border-surface-container-high pb-3 mb-4">
                     <h3 class="text-lg font-bold text-on-surface">Book a Table</h3>
-                    <button wire:click="showBookModal = false" class="text-secondary hover:text-on-surface">
+                    <button wire:click="cancelBooking" class="text-secondary hover:text-on-surface">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
@@ -162,8 +162,8 @@
                     </div>
 
                     {{-- Actions --}}
-                    <div class="mt-6 flex justify-end gap-3 pt-3 border-t border-surface-container-high">
-                        <button type="button" wire:click="showBookModal = false" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">
+                    <div class="flex justify-end gap-3 pt-3 border-t border-surface-container-high">
+                        <button type="button" wire:click="cancelBooking" class="rounded-lg border border-surface-container-high px-4 py-2 text-sm text-on-surface hover:bg-surface-container">
                             Cancel
                         </button>
                         <button type="submit" @if(!$isAvailable) disabled @endif class="rounded-lg bg-primary px-5 py-2 text-sm font-bold text-on-primary hover:bg-primary-container disabled:opacity-50 disabled:cursor-not-allowed">

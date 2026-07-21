@@ -109,6 +109,23 @@ class Customers extends Component
         }
     }
 
+    public function cancelForm()
+    {
+        $this->resetErrorBag();
+        $this->showForm = false;
+        $this->editingCustomer = null;
+        $this->branchId = '';
+        $this->name = '';
+        $this->email = '';
+        $this->phone = '';
+        $this->birthday = '';
+        $this->anniversary = '';
+        $this->preferencesInput = '';
+        $this->allergiesInput = '';
+        $this->notes = '';
+        $this->isActive = true;
+    }
+
     public function save()
     {
         $this->validate();

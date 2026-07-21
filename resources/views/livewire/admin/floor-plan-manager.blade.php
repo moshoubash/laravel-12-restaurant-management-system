@@ -94,7 +94,7 @@
 
     <!-- Section Form Modal -->
     @if($showSectionForm)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="closeSectionForm">
             <div class="w-full max-w-md rounded-3xl border border-surface-container-high bg-surface-container p-6 shadow-lg">
                 <h2 class="text-lg font-semibold">{{ $editingSection ? 'Edit Section' : 'Add Section' }}</h2>
                 <form wire:submit="saveSection" class="mt-4 space-y-4">
@@ -123,7 +123,7 @@
 
     <!-- Table Form Modal -->
     @if($showTableForm)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="closeTableForm">
             <div class="w-full max-w-md rounded-3xl border border-surface-container-high bg-surface-container p-6 shadow-lg">
                 <h2 class="text-lg font-semibold">{{ $editingTable ? 'Edit Table' : 'Add Table' }}</h2>
                 <form wire:submit="saveTable" class="mt-4 space-y-4">

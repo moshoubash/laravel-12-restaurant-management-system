@@ -167,6 +167,15 @@ class Pos extends Component
         $this->customerName = $customer->name;
     }
 
+    public function cancelCheckout()
+    {
+        $this->resetErrorBag();
+        $this->showCheckout = false;
+        $this->paymentMethod = '';
+        $this->paymentAmount = 0;
+        $this->paymentReference = '';
+    }
+
     public function openCheckout()
     {
         if (empty($this->cart)) {
