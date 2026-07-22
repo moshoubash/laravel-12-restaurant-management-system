@@ -2,6 +2,8 @@
 
 A multi-tenant restaurant management system built with Laravel, Livewire, and Tailwind CSS.
 
+![1784710313153](public/images/resaas.png)
+
 ## Tech Stack
 
 - **Backend:** Laravel 12, PHP 8.3
@@ -12,15 +14,15 @@ A multi-tenant restaurant management system built with Laravel, Livewire, and Ta
 
 ## Roles
 
-| Role | Description |
-|------|-------------|
-| **owner** | Full access |
-| **admin** | Full operational access |
-| **manager** | Day-to-day operations |
-| **chef** | Kitchen operations |
-| **waiter** | Floor service |
-| **cashier** | Payment handling |
-| **customer** | Self-service portal |
+| Role               | Description             |
+| ------------------ | ----------------------- |
+| **owner**    | Full access             |
+| **admin**    | Full operational access |
+| **manager**  | Day-to-day operations   |
+| **chef**     | Kitchen operations      |
+| **waiter**   | Floor service           |
+| **cashier**  | Payment handling        |
+| **customer** | Self-service portal     |
 
 ## Features
 
