@@ -14,62 +14,38 @@ class TenantUserSeeder extends Seeder
 {
     public function run(): void
     {
-        $branch = Branch::create([
-            'name' => 'Main Branch',
+        $branch = Branch::firstOrCreate([
             'slug' => 'main-branch',
+        ], [
+            'name' => 'Main Branch',
             'is_active' => true,
         ]);
 
-        $owner = User::create([
-            'name' => 'Restaurant Owner',
-            'email' => 'owner@resaas.test',
-            'password' => Hash::make('password'),
-            'branch_id' => $branch->id,
-            'is_active' => true,
-        ]);
-        $owner->assignRole('owner');
+        $users = [
+            ['name' => 'Restaurant Owner', 'email' => 'owner@resaas.test', 'role' => 'owner', 'branch_id' => $branch->id],
+            ['name' => 'Restaurant Manager', 'email' => 'manager@resaas.test', 'role' => 'manager', 'branch_id' => $branch->id],
+            ['name' => 'Chef', 'email' => 'chef@resaas.test', 'role' => 'chef', 'branch_id' => $branch->id],
+            ['name' => 'Waiter', 'email' => 'waiter@resaas.test', 'role' => 'waiter', 'branch_id' => $branch->id],
+            ['name' => 'Cashier', 'email' => 'cashier@resaas.test', 'role' => 'cashier', 'branch_id' => $branch->id],
+            ['name' => 'John Customer', 'email' => 'customer@resaas.test', 'role' => 'customer', 'branch_id' => null],
+        ];
 
-        $manager = User::create([
-            'name' => 'Restaurant Manager',
-            'email' => 'manager@resaas.test',
-            'password' => Hash::make('password'),
-            'branch_id' => $branch->id,
-            'is_active' => true,
-        ]);
-        $manager->assignRole('manager');
+        foreach ($users as $userData) {
+            $user = User::firstOrCreate([
+                'email' => $userData['email'],
+            ], [
+                'name' => $userData['name'],
+                'password' => Hash::make('password'),
+                'branch_id' => $userData['branch_id'],
+                'is_active' => true,
+            ]);
 
-        User::create([
-            'name' => 'Chef',
-            'email' => 'chef@resaas.test',
-            'password' => Hash::make('password'),
-            'branch_id' => $branch->id,
-            'is_active' => true,
-        ])->assignRole('chef');
+            if (! $user->hasRole($userData['role'])) {
+                $user->assignRole($userData['role']);
+            }
+        }
 
-        User::create([
-            'name' => 'Waiter',
-            'email' => 'waiter@resaas.test',
-            'password' => Hash::make('password'),
-            'branch_id' => $branch->id,
-            'is_active' => true,
-        ])->assignRole('waiter');
-
-        User::create([
-            'name' => 'Cashier',
-            'email' => 'cashier@resaas.test',
-            'password' => Hash::make('password'),
-            'branch_id' => $branch->id,
-            'is_active' => true,
-        ])->assignRole('cashier');
-
-        User::create([
-            'name' => 'John Customer',
-            'email' => 'customer@resaas.test',
-            'password' => Hash::make('password'),
-            'is_active' => true,
-        ])->assignRole('customer');
-
-        DesignConfig::create([
+        DesignConfig::firstOrCreate([], [
             'colors' => [
                 'primary' => '232 89 12',
                 'primary-container' => '255 237 213',
@@ -86,9 +62,10 @@ class TenantUserSeeder extends Seeder
             'font' => 'Inter',
         ]);
 
-        LoyaltyProgram::create([
+        LoyaltyProgram::firstOrCreate([
             'branch_id' => $branch->id,
             'name' => 'Standard Loyalty',
+        ], [
             'points_per_currency' => 1,
             'minimum_points_redeem' => 100,
             'points_per_visit' => 10,

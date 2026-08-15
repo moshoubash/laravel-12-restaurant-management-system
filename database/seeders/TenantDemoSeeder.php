@@ -164,8 +164,8 @@ class TenantDemoSeeder extends Seeder
         ]);
 
         $inventoryItems = [
-            ['name' => 'Tomatoes', 'unit' => 'kg', 'quantity' => 20, 'reorder_level' => 5, 'supplier_id' => $supplier->id],
-            ['name' => 'Lemons', 'unit' => 'kg', 'quantity' => 15, 'reorder_level' => 5, 'supplier_id' => $supplier->id],
+            ['name' => 'Tomatoes', 'unit' => 'kg', 'stock_quantity' => 20, 'reorder_point' => 5, 'min_stock_level' => 5, 'supplier_id' => $supplier->id],
+            ['name' => 'Lemons', 'unit' => 'kg', 'stock_quantity' => 15, 'reorder_point' => 5, 'min_stock_level' => 5, 'supplier_id' => $supplier->id],
         ];
 
         foreach ($inventoryItems as $inventoryData) {
@@ -183,16 +183,23 @@ class TenantDemoSeeder extends Seeder
             'supplier_id' => $supplier->id,
             'branch_id' => $branch->id,
             'status' => 'draft',
-            'order_date' => now(),
+            'ordered_at' => now(),
         ]);
 
-        PurchaseOrderItem::firstOrCreate([
-            'purchase_order_id' => $po->id,
-            'inventory_item_id' => InventoryItem::where('name', 'Tomatoes')->value('id'),
-        ], [
-            'quantity' => 10,
-            'unit_price' => 1.20,
-        ]);
+        $tomatoItem = InventoryItem::where('name', 'Tomatoes')->first();
+
+        if ($tomatoItem) {
+            PurchaseOrderItem::firstOrCreate([
+                'purchase_order_id' => $po->id,
+                'inventory_item_id' => $tomatoItem->id,
+            ], [
+                'item_name' => $tomatoItem->name,
+                'quantity' => 10,
+                'unit' => $tomatoItem->unit,
+                'unit_cost' => 1.20,
+                'total_cost' => 12.00,
+            ]);
+        }
 
         Reservation::firstOrCreate([
             'customer_name' => 'Farah Alami',
@@ -203,7 +210,7 @@ class TenantDemoSeeder extends Seeder
             'table_id' => Table::where('table_number', 1)->value('id'),
             'customer_email' => 'farah@example.com',
             'customer_phone' => '+1 555 444 2211',
-            'party_size' => 4,
+            'guest_count' => 4,
             'status' => 'pending',
             'notes' => 'Window seat preferred',
         ]);
